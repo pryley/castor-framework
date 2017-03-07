@@ -1,0 +1,33 @@
+{
+  "name": "geminilabs/castor-framework",
+  "license": "MIT",
+  "description": "Framework for Dioscuri's Castor theme.",
+  "homepage": "https://github.com/geminilabs/castor-framework",
+  "keywords": ["wordpress", "dioscuri", "castor", "framework"],
+  "authors": [
+    {
+      "name": "Paul Ryley",
+      "email": "paul@geminilabs.io"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/geminilabs/castor-framework/issues",
+    "source": "https://github.com/geminilabs/castor-framework"
+  },
+  "archive": {
+    "exclude": []
+  },
+  "require": {
+    "php": ">=5.6.4",
+  },
+  "autoload": {
+      "psr-4": {
+          "GeminiLabs\\Castor\\": "src/"
+      }
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
