@@ -64,24 +64,16 @@ class Media
 	public function renderGalleryImage( WP_Post $attachment )
 	{
 		$image = $this->getImageSrc( $attachment->ID );
-
 		if( !$image )return;
-
 		return sprintf(
-			'<figure data-w="%s" data-h="%s" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">' .
-				'<a href="%s" itemprop="contentUrl" data-size="%sx%s" data-m="%s" data-m-size="%sx%s">' .
-					'<img src="%s" data-src="%s" itemprop="thumbnail" alt="%s" />' .
-				'</a>' .
-				'<figcaption itemprop="caption description">%s<span itemprop="copyrightHolder">%s</span></figcaption>' .
+			'<figure class="gallery-image" data-w="%s" data-h="%s" data-ps=\'%s\' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">' .
+				'<a href="%s" itemprop="contentUrl"><img src="%s" data-src="%s" itemprop="thumbnail" alt="%s"/></a>' .
+				'<figcaption itemprop="caption description">%s <span itemprop="copyrightHolder">%s</span></figcaption>' .
 			'</figure>',
 			$image->thumbnail['width'],
 			$image->thumbnail['height'],
-			$image->large['url'],
-			$image->large['width'],
-			$image->large['height'],
-			$image->medium['url'],
-			$image->medium['width'],
-			$image->medium['height'],
+			$this->getPhotoswipeData( $image ),
+			get_attachment_link( $attachment->ID ),
 			$this->theme->imageUri( 'blank.gif' ),
 			$image->thumbnail['url'],
 			$image->alt,
@@ -160,6 +152,21 @@ class Media
 	protected function getPaged()
 	{
 		return intval( get_query_var(( is_front_page() ? 'page' : 'paged' ))) ?: 1;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getPhotoswipeData( $image )
+	{
+		return sprintf( '{"l":{"src":"%s","w":%d,"h":%d},"m":{"src":"%s","w":%d,"h":%d}}',
+			$image->large['url'],
+			$image->large['width'],
+			$image->large['height'],
+			$image->medium['url'],
+			$image->medium['width'],
+			$image->medium['height']
+		);
 	}
 
 	/**
