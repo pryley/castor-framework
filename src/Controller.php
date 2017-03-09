@@ -12,6 +12,7 @@ class Controller
 {
 	public function afterSetupTheme()
 	{
+		add_editor_style( Theme::assetUri( 'css/editor.css' ));
 		add_theme_support( 'customize-selective-refresh-widgets' );
 		add_theme_support( 'html5', ['caption', 'comment-form', 'comment-list', 'gallery', 'search-form'] );
 		add_theme_support( 'post-thumbnails' );
@@ -21,9 +22,15 @@ class Controller
 		add_theme_support( 'soil-nice-search' );
 		add_theme_support( 'soil-relative-urls' );
 		add_theme_support( 'title-tag' );
-		add_editor_style( Theme::assetUri( 'css/editor.css' ));
 		load_theme_textdomain( 'castor', Theme::paths( 'dir.template' ) . '/languages' );
-		register_nav_menu( 'main_menu', __( 'Main Menu', 'castor' ));
+
+		$menus = apply_filters( 'castor/register/nav_menus', [
+			'main_menu' => __( 'Main Menu', 'castor' ),
+		]);
+
+		foreach( $menus as $location => $description ) {
+			register_nav_menu( $location, $description );
+		}
 	}
 
 	/**
@@ -74,21 +81,23 @@ class Controller
 
 	public function registerSidebars()
 	{
-		$defaults = [
-			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
+		$defaults = apply_filters( 'castor/register/sidebars/defaults', [
+			'before_widget' => '<div class="widget %1$s %2$s">',
+			'after_widget'  => '</div>',
 			'before_title'  => '<h4>',
 			'after_title'   => '</h4>',
-		];
+		]);
 
-		register_sidebar([
-			'id'   => 'sidebar-primary',
-			'name' => __( 'Primary Sidebar', 'castor' ),
-		] + $defaults );
+		$sidebars = apply_filters( 'castor/register/sidebars', [
+			'sidebar-primary' => __( 'Primary Sidebar', 'castor' ),
+			'sidebar-footer'  => __( 'Footer Sidebar', 'castor' ),
+		]);
 
-		register_sidebar([
-			'id'   => 'sidebar-footer',
-			'name' => __( 'Footer Sidebar', 'castor' ),
-		] + $defaults );
+		foreach( $sidebars as $id => $name ) {
+			register_sidebar([
+				'id'   => $id,
+				'name' => $name,
+			] + $defaults );
+		}
 	}
 }
