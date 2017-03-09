@@ -2,8 +2,17 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
+use GeminiLabs\Castor\Helpers\PostMeta;
+
 class Theme
 {
+	public $postmeta;
+
+	public function __construct( PostMeta $postmeta )
+	{
+		$this->postmeta = $postmeta;
+	}
+
 	/**
 	 * @param string $asset
 	 *
@@ -62,11 +71,12 @@ class Theme
 
 	public function pageTitle()
 	{
-		foreach( ['is_404', 'is_archive', 'is_home', 'is_search'] as $bool ) {
+		foreach( ['is_404', 'is_archive', 'is_home', 'is_page', 'is_search'] as $bool ) {
 			if( !$bool() )continue;
 			$method = sprintf( 'get%sTitle', ucfirst( str_replace( 'is_', '', $bool )));
 			return $this->$method();
 		}
+
 		return get_the_title();
 	}
 
@@ -109,6 +119,13 @@ class Theme
 		return ( $home = get_option( 'page_for_posts', true ))
 			? get_the_title( $home )
 			: __( 'Latest Posts', 'castor' );
+	}
+
+	protected function getPageTitle()
+	{
+		return ($title = $this->postmeta->get( 'title' ))
+			? $title
+			: get_the_title();
 	}
 
 	protected function getSearchTitle()
