@@ -41,6 +41,7 @@ final class Application extends Container
 	{
 		$aliases = [
 			'Development' => Facades\Development::class,
+			'Media'       => Facades\Media::class,
 			'PostMeta'    => Facades\PostMeta::class,
 			'Template'    => Facades\Template::class,
 			'Theme'       => Facades\Theme::class,
