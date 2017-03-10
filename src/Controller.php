@@ -10,6 +10,10 @@ use WP_Customize_Manager;
 
 class Controller
 {
+	/**
+	 * @return void
+	 * @action after_setup_theme
+	 */
 	public function afterSetupTheme()
 	{
 		add_editor_style( Theme::assetUri( 'css/editor.css' ));
@@ -31,6 +35,24 @@ class Controller
 		foreach( $menus as $location => $description ) {
 			register_nav_menu( $location, $description );
 		}
+	}
+
+	/**
+	 * @return string
+	 * @filter login_headertitle
+	 */
+	public function filterLoginTitle()
+	{
+		return get_bloginfo( 'name' );
+	}
+
+	/**
+	 * @return string
+	 * @filter login_headerurl
+	 */
+	public function filterLoginUrl()
+	{
+		return get_bloginfo( 'url' );
 	}
 
 	/**
@@ -57,12 +79,31 @@ class Controller
 		}, $templates );
 	}
 
+	/**
+	 * @return void
+	 * @action login_head
+	 */
+	public function login()
+	{
+		if( file_exists( Theme::assetPath( 'css/login.css' ))) {
+			printf( '<link rel="stylesheet" href="%s">', Theme::assetUri( 'css/login.css' ));
+		}
+	}
+
+	/**
+	 * @return void
+	 * @action wp_enqueue_scripts
+	 */
 	public function registerAssets()
 	{
 		wp_enqueue_style( 'castor/main.css', Theme::assetUri( 'css/main.css' ), [], null );
 		wp_enqueue_script( 'castor/main.js', Theme::assetUri( 'js/main.js' ), [], null, true );
 	}
 
+	/**
+	 * @return void
+	 * @action customize_register
+	 */
 	public function registerCustomizer( WP_Customize_Manager $manager )
 	{
 		$manager->get_setting( 'blogname' )->transport = 'postMessage';
@@ -74,11 +115,19 @@ class Controller
 		]);
 	}
 
+	/**
+	 * @return void
+	 * @action customize_preview_init
+	 */
 	public function registerCustomizerAssets()
 	{
 		wp_enqueue_script( 'castor/customizer.js', Theme::assetUri( 'js/customizer.js' ), ['customize-preview'], null, true );
 	}
 
+	/**
+	 * @return void
+	 * @action widgets_init
+	 */
 	public function registerSidebars()
 	{
 		$defaults = apply_filters( 'castor/register/sidebars/defaults', [

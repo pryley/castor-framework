@@ -1,0 +1,123 @@
+$background-color: #f1f1f1 !default;
+$error-color: #d51300 !default;
+$link-color: #0073aa !default;
+$logo: () !default;
+
+#login h1 a[href*="/wordpress.org"],
+#login form p.forgetmenot,
+#login form label br,
+#login form label[for="authcode"],
+#login #backtoblog {
+	display: none;
+}
+
+a {
+	color: $link-color;
+}
+
+a:hover,
+a:active,
+.login #nav a:hover {
+	color: lighten($link-color, 5);
+}
+
+body.login:not(.interim-login) {
+	display: flex;
+	background-color: $background-color;
+}
+
+body.login.interim-login {
+	h1 a {
+		margin-top: 0;
+	}
+}
+
+#login {
+	padding: 0;
+}
+
+.login h1 a {
+	@each $property, $value in $logo {
+		#{$property}: $value;
+	}
+}
+
+#login form {
+	position: relative;
+	left: auto;
+	background-color: $background-color;
+	box-shadow: none;
+	padding: 0;
+	margin: 0 0 16px;;
+	overflow: inherit;
+
+	label:not([for="rememberme"]) {
+		position: relative;
+		display: block;
+		height: 36px;
+		margin-bottom: 16px;
+		&:focus {
+			outline: none;
+		}
+		input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: #fff;
+			padding: 3px 4px;
+			margin: 0;
+			z-index: 1;
+		}
+		input:focus {
+			border-color: lighten($link-color, 5);
+			box-shadow: 0 0 2px rgba($link-color, 0.5);
+		}
+	}
+
+	input#authcode {
+		text-align: center;
+	}
+
+	p.forgetmenot {
+		margin-bottom: 16px;
+	}
+
+	input#submit,
+	#wp-submit {
+		float: none;
+		width: 100%;
+		height: 40px;
+		font-size: 1.154em;
+		text-shadow: none;
+		border: none;
+		background-color: $link-color;
+		transition: background-color 0.2s ease-in-out;
+		box-shadow: none;
+		outline: 0;
+		&:focus {
+			box-shadow: none;
+		}
+		&:hover {
+			background-color: lighten($link-color, 5);
+		}
+	}
+}
+
+.login .message,
+.login #login_error {
+	margin-bottom: 16px
+}
+
+.login .message {
+	border-color: $link-color;
+}
+
+.login #login_error {
+	border-color: $error-color;
+}
+
+#login #nav {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}

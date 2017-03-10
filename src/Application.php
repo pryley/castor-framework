@@ -21,6 +21,7 @@ final class Application extends Container
 
 		// Action hooks
 		add_action( 'after_setup_theme',      [$controller, 'afterSetupTheme'], 20 );
+		add_action( 'login_head',             [$controller, 'login'] );
 		add_action( 'wp_enqueue_scripts',     [$controller, 'registerAssets'] );
 		add_action( 'customize_register',     [$controller, 'registerCustomizer'] );
 		add_action( 'customize_preview_init', [$controller, 'registerCustomizerAssets'] );
@@ -28,6 +29,8 @@ final class Application extends Container
 
 		// Filter hooks
 		add_filter( 'template_include',       [$controller, 'filterTemplate'] );
+		add_filter( 'login_headertitle',      [$controller, 'filterLoginTitle'] );
+		add_filter( 'login_headerurl',        [$controller, 'filterLoginUrl'] );
 
 		foreach( $this->getTemplateTypes() as $type ) {
 			add_filter( "{$type}_template_hierarchy", [$controller, 'filterTemplateHierarchy'] );
