@@ -46,6 +46,7 @@ final class Application extends Container
 			'Development' => Facades\Development::class,
 			'Media'       => Facades\Media::class,
 			'PostMeta'    => Facades\PostMeta::class,
+			'Render'      => Facades\Render::class,
 			'Template'    => Facades\Template::class,
 			'Theme'       => Facades\Theme::class,
 			'Utility'     => Facades\Utility::class,

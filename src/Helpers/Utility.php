@@ -5,6 +5,28 @@ namespace GeminiLabs\Castor\Helpers;
 class Utility
 {
 	/**
+	 * @return string
+	 */
+	public function buildAttributes( array $atts = [] )
+	{
+		$attributes = [];
+		foreach( $atts as $key => $value ) {
+			$attributes[] = sprintf( '%s="%s"', $key, $value );
+		}
+		return implode( ' ', $attributes );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function buildAttributesFor( $tag, array $atts = [] )
+	{
+		return $this->buildAttributes(
+			wp_parse_args( $atts, apply_filters( "castor/render/$tag/attributes", [] ))
+		);
+	}
+
+	/**
 	 * @param string $suffix
 	 * @param string $string
 	 * @param bool   $unique
@@ -30,6 +52,23 @@ class Utility
 		return $length != 0
 			? substr( $haystack, -$length ) === $needle
 			: true;
+	}
+
+	/**
+	 * @param string $tag
+	 * @param string $content
+	 *
+	 * @return void
+	 */
+	public function printTag( $tag, $value, array $attributes = [] )
+	{
+		$attributes = $this->buildAttributesFor( $tag, $attributes );
+
+		printf( '<%s>%s</%s>',
+			rtrim( sprintf( '%s %s', $tag, $attributes )),
+			$value,
+			$tag
+		);
 	}
 
 	/**
