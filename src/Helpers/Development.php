@@ -20,9 +20,9 @@ class Development
 			: '';
 	}
 
-	public function debug( $value )
+	public function debug()
 	{
-		$this->print( $value );
+		call_user_func_array( [$this, 'print'], func_get_args() );
 	}
 
 	public function isDev()
@@ -35,19 +35,19 @@ class Development
 		return WP_ENV == 'production';
 	}
 
-	public function print( $value )
+	public function print()
 	{
 		$args = func_num_args();
 
 		if( $args == 1 ) {
 			printf( '<div class="print__r"><pre>%s</pre></div>',
-				htmlspecialchars( print_r( $value, true ), ENT_QUOTES, 'UTF-8' )
+				htmlspecialchars( print_r( func_get_arg(0), true ), ENT_QUOTES, 'UTF-8' )
 			);
 		}
 		else if( $args > 1 ) {
 			echo '<div class="print__r_group">';
-			foreach( func_get_args() as $param ) {
-				$this->print( $param );
+			foreach( func_get_args() as $value ) {
+				$this->print( $value );
 			}
 			echo '</div>';
 		}
