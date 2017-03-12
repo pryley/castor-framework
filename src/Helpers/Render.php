@@ -65,14 +65,9 @@ class Render
 		print str_replace( ']]>', ']]&gt;', $content );
 	}
 
-	public function gallery( $metaKey = false )
+	public function gallery( array $args = [] )
 	{
-		// $gallery = $this->media->getGallery( $args );
-
-		// printf( '%s%s',
-		// 	$this->media->renderGallery( $gallery ),
-		// 	$this->media->renderGalleryPagination( $gallery )
-		// );
+		print $this->media->gallery( $args );
 	}
 
 	public function title( $metaKey = false, array $attributes = [] )
