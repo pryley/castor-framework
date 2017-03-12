@@ -27,6 +27,43 @@ class Utility
 	}
 
 	/**
+	 * @param string $name
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public function buildClassName( $name, $path = '' )
+	{
+		$className = array_map( 'ucfirst', array_map( 'strtolower', preg_split( '/[-_]/', $name )));
+		$className = implode( '', $className );
+
+		return !empty( $path )
+			? str_replace( '\\\\', '\\', sprintf( '%s\%s', $path, $className ))
+			: $className;
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public function buildMethodName( $name, $prefix = 'get' )
+	{
+		return lcfirst( $this->buildClassName( $prefix . '-' . $name ));
+	}
+
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public function cleanString( $string )
+	{
+		return trim( strip_tags( $string ));
+	}
+
+	/**
 	 * @param string $suffix
 	 * @param string $string
 	 * @param bool   $unique
