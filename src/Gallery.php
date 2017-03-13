@@ -140,7 +140,7 @@ class Gallery
 		if( !is_numeric( $perPage ) && is_string( $perPage )) {
 			$perPage = $this->postmeta->get( $perPage );
 		}
-		return is_numeric( $perPage ) && !!$perPage
+		return !!intval( $perPage )
 			? $perPage
 			: -1;
 	}

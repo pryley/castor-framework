@@ -93,7 +93,7 @@ class Utility
 
 	/**
 	 * @param string $tag
-	 * @param string $content
+	 * @param string $value
 	 *
 	 * @return void
 	 */
