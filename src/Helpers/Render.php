@@ -24,12 +24,9 @@ class Render
 
 	public function blockquote( $metaKey = false, array $attributes = [] )
 	{
-		$tag = 'blockquote';
-		$value = $this->postmeta->get( $metaKey );
-
-		if( !$value )return;
-
-		$this->utility->printTag( $tag, wp_strip_all_tags( $value ), $attributes );
+		if( $value = $this->postmeta->get( $metaKey )) {
+			$this->utility->printTag( 'blockquote', wp_strip_all_tags( $value ), $attributes );
+		}
 	}
 
 	public function button( $postId = 0, $title = false )

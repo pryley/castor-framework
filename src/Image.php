@@ -28,9 +28,9 @@ class Image
 		$large = $this->normalizeSrc( wp_get_attachment_image_src( $attachmentId, 'large' ), $medium );
 
 		return (object) [
-			'alt'       => $this->utility->cleanString( get_post_meta( $attachmentId, '_wp_attachment_image_alt', true )),
+			'alt'       => wp_strip_all_tags( get_post_meta( $attachmentId, '_wp_attachment_image_alt', true ), true ),
 			'caption'   => wp_get_attachment_caption( $attachmentId ),
-			'copyright' => $this->utility->cleanString( get_post_meta( $attachmentId, '_copyright', true )),
+			'copyright' => wp_strip_all_tags( get_post_meta( $attachmentId, '_copyright', true ), true ),
 			'large'     => $large,
 			'medium'    => $medium,
 			'permalink' => get_attachment_link( $attachmentId ),

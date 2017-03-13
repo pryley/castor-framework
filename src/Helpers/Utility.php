@@ -54,16 +54,6 @@ class Utility
 	}
 
 	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	public function cleanString( $string )
-	{
-		return trim( strip_tags( $string ));
-	}
-
-	/**
 	 * @param string $suffix
 	 * @param string $string
 	 * @param bool   $unique
