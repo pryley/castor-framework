@@ -22,4 +22,6 @@ if( is_customize_preview() && filter_input( INPUT_GET, 'theme' )) {
 	);
 }
 
+require_once( ABSPATH . '/' . WPINC . '/class-oembed.php' );
+
 \GeminiLabs\Castor\Application::getInstance()->init();

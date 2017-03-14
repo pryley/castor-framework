@@ -104,6 +104,18 @@ class Theme
 			: '';
 	}
 
+	/**
+	 * @param null|string $path
+	 *
+	 * @return string|null
+	 */
+	public function svg( $path = null )
+	{
+		if( $svg = file_get_contents( $this->imageUri( $path ))) {
+			return $svg;
+		}
+	}
+
 	protected function get404Title()
 	{
 		return __( 'Not Found', 'castor' );

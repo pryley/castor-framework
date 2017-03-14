@@ -38,4 +38,15 @@ class Media
 	{
 		return $this->gallery->query( $args );
 	}
+
+	/**
+	 * @return void|string
+	 */
+	public function video( $args = [] )
+	{
+		if( is_string( $args )) {
+			$args = ['url' => $args];
+		}
+		return $this->video->get( $args )->render();
+	}
 }

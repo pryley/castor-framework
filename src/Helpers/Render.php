@@ -33,20 +33,19 @@ class Render
 	{
 		$post = get_post( $postId );
 
-		if( !$post )return;
+		if( !$postId || !$post )return;
 		if( !$title ) {
 			$title = $post->post_title;
 		}
-
 		printf( '<a href="%s" class="button"><span>%s</span></a>',
 			get_permalink( $post->ID ),
 			$title
 		);
 	}
 
-	public function buttons( array $postIds = [] )
+	public function buttons( $postIds = [] )
 	{
-		foreach( $postIds as $postId ) {
+		foreach( (array) $postIds as $postId ) {
 			$this->button( $postId );
 		}
 	}
@@ -57,14 +56,12 @@ class Render
 			? $this->postmeta->get( $metaKey )
 			: get_the_content();
 
-		$content = apply_filters( 'the_content', $content );
-
-		print str_replace( ']]>', ']]&gt;', $content );
+		echo str_replace( ']]>', ']]&gt;', apply_filters( 'the_content', $content ));
 	}
 
 	public function gallery( array $args = [] )
 	{
-		print $this->media->gallery( $args );
+		echo $this->media->gallery( $args );
 	}
 
 	public function title( $metaKey = false, array $attributes = [] )
@@ -79,7 +76,13 @@ class Render
 		$this->utility->printTag( $tag, wp_strip_all_tags( $value ), $attributes );
 	}
 
-	public function video( $metaKey = 'video', $screenshotMetaKey = false )
+	/**
+	 * @param array|string $args
+	 *
+	 * @return string|null
+	 */
+	public function video( $args )
 	{
+		echo $this->media->video( $args );
 	}
 }

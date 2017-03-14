@@ -103,12 +103,10 @@ class Gallery
 	{
 		$bool = $this->getValue( $key, $value );
 
-		if( is_string( $bool ) && !in_array( $bool, ['true', 'false'] )) {
-			$bool = wp_validate_boolean( $this->postmeta->get( $bool ));
+		if( is_null( filter_var( $bool, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE ))) {
+			$bool = $this->postmeta->get( $bool );
 		}
-		return is_bool( $bool )
-			? $bool
-			: false;
+		return wp_validate_boolean( $bool );
 	}
 
 	/**
