@@ -21,31 +21,34 @@ class Media
 	}
 
 	/**
-	 * @param string $method
+	 * @param string $name
 	 *
 	 * @return string|void
 	 * @throws BadMethodCallException
 	 */
-	public function __call( $method, array $args )
+	public function __call( $name, array $args )
 	{
-		if( !$this->verifyClassProperty( $method )) {
-			throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $method ));
+		$mediaType = $this->validateMethod( $name );
+		if( !$mediaType ) {
+			throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $name ));
 		}
 		if( !count( $args )) {
-			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $method ));
+			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
 		}
-		isset( $args[1] ) || $args[1] = '';
-		return $this->$method->get( $args[0] )->render( $args[1] );
+		return empty( $args[1] )
+			? $this->$mediaType->get( $args[0] )->render( $args[1] )
+			: $this->$mediaType->get( $args[0] )->render();
 	}
 
 	/**
-	 * @param string $mediaType
+	 * @param string $name
+	 * @param mixed  $args
 	 *
 	 * @return mixed
 	 */
-	public function get( $mediaType, array $args = [] )
+	public function get( $name, $args = [] )
 	{
-		if( $this->verifyClassProperty( $mediaType )) {
+		if( $mediaType = $this->validateMethod( $name )) {
 			return $this->$mediaType->get( $args )->$mediaType;
 		}
 	}
@@ -53,10 +56,17 @@ class Media
 	/**
 	 * @param string $name
 	 *
-	 * @return bool
+	 * @return string|false
 	 */
-	protected function verifyClassProperty( $name )
+	protected function validateMethod( $name )
 	{
-		return property_exists( $this, $name ) && is_object( $this->$name );
+		foreach( [$name, strtolower( substr( $name, 3 ))] as $method ) {
+			if( in_array( $method, ['gallery', 'image', 'video'] )
+				&& property_exists( $this, $method )
+				&& is_object( $this->$method )) {
+				return $method;
+			}
+		}
+		return false;
 	}
 }

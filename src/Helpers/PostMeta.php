@@ -15,7 +15,7 @@ class PostMeta
 
 		$args = shortcode_atts( $defaults, $args );
 
-		if( $value[0] == '_' && !empty( $args['prefix'] )) {
+		if( !empty( $value ) && $value[0] == '_' && !empty( $args['prefix'] )) {
 			$args['prefix'] = sprintf( '_%s', rtrim( $args['prefix'], '_' ));
 		}
 
