@@ -37,9 +37,7 @@ class Media
 	public function __call( $name, array $args )
 	{
 		$mediaType = $this->validateMethod( $name );
-		if( $mediaType === false ) {
-			throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $name ));
-		}
+
 		if( !count( $args )) {
 			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
 		}
@@ -56,28 +54,27 @@ class Media
 	 * @param mixed  $args
 	 *
 	 * @return mixed
+	 * @throws BadMethodCallException
 	 */
 	public function get( $name, $args = [] )
 	{
-		if( $mediaType = $this->validateMethod( $name )) {
-			return $this->$mediaType->get( $args )->$mediaType;
-		}
+		$mediaType = $this->validateMethod( $name );
+		return $this->$mediaType->get( $args )->$mediaType;
 	}
 
 	/**
 	 * @param string $name
 	 *
 	 * @return string|false
+	 * @throws BadMethodCallException
 	 */
 	protected function validateMethod( $name )
 	{
 		foreach( [$name, strtolower( substr( $name, 3 ))] as $method ) {
-			if( in_array( $method, ['gallery', 'image', 'video'] )
-				&& property_exists( $this, $method )
-				&& is_object( $this->$method )) {
+			if( property_exists( $this, $method ) && is_object( $this->$method )) {
 				return $method;
 			}
 		}
-		return false;
+		throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $name ));
 	}
 }

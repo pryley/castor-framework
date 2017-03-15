@@ -59,7 +59,7 @@ class Image
 
 		$attachment = get_post( $attachmentId );
 
-		if( !$attachmentId || !$attachment || $attachment->post_type != 'attachment' )return;
+		if( is_null( $attachment ) || $attachment->post_type != 'attachment' )return;
 
 		return $attachment->ID;
 	}
