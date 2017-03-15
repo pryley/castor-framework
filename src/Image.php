@@ -25,8 +25,8 @@ class Image
 	 */
 	public function get( $attachment )
 	{
-		if( !( $attachment = $this->normalize( $attachment )))return;
-		if( $thumbnail = wp_get_attachment_image_src( $attachment, 'thumbnail' )) {
+		$attachment = $this->normalize( $attachment );
+		if( $attachment && $thumbnail = wp_get_attachment_image_src( $attachment, 'thumbnail' )) {
 			$medium = $this->normalizeSrc( wp_get_attachment_image_src( $attachment, 'medium' ), $thumbnail );
 			$large = $this->normalizeSrc( wp_get_attachment_image_src( $attachment, 'large' ), $medium );
 
