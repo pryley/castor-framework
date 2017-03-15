@@ -10,14 +10,14 @@ use GeminiLabs\Castor\Oembed;
 
 class Video
 {
-	public $image;
-	public $postmeta;
-	public $oembed;
-	public $theme;
-	public $utility;
+	public $video;
 
 	protected $args;
-	protected $video;
+	protected $image;
+	protected $oembed;
+	protected $postmeta;
+	protected $theme;
+	protected $utility;
 
 	public function __construct( Image $image, Oembed $oembed, PostMeta $postmeta, Theme $theme, Utility $utility )
 	{
@@ -33,6 +33,16 @@ class Video
 		$args = $this->normalize( $args );
 		$this->video = $this->oembed->request( $args['url'], $args['player'] );
 		return $this;
+	}
+
+	public function render()
+	{
+		if( !isset( $this->video->html ))return;
+		return sprintf(
+			'<div class="video embed">%s%s</div>',
+			$this->renderScreenshot(),
+			$this->video->html
+		);
 	}
 
 	public function renderPlayButton()
@@ -58,19 +68,9 @@ class Video
 		);
 	}
 
-	public function render()
-	{
-		if( !isset( $this->video->html ))return;
-		return sprintf(
-			'<div class="video embed">%s%s</div>',
-			$this->renderScreenshot(),
-			$this->video->html
-		);
-	}
-
 	protected function setImage( $image )
 	{
-		$image = $this->image->get( $image );
+		$image = $this->image->get( $image )->image;
 		$this->args['image'] = isset( $image->large )
 			? $image->large['url']
 			: null;
@@ -83,8 +83,14 @@ class Video
 			: $url;
 	}
 
-	protected function normalize( array $args = [] )
+	protected function normalize( $args )
 	{
+		if( is_string( $args )) {
+			$args = ['url' => $args];
+		}
+
+
+
 		$this->args = shortcode_atts([
 			'image'  => '', // string || int
 			'player' => '', // string || array

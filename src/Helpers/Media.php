@@ -35,7 +35,7 @@ class Media
 		if( !count( $args )) {
 			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
 		}
-		return empty( $args[1] )
+		return !empty( $args[1] )
 			? $this->$mediaType->get( $args[0] )->render( $args[1] )
 			: $this->$mediaType->get( $args[0] )->render();
 	}

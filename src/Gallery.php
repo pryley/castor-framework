@@ -11,12 +11,13 @@ use WP_Query;
 
 class Gallery
 {
-	public $image;
-	public $postmeta;
-	public $theme;
-	public $utility;
+	public $gallery;
 
 	protected $args;
+	protected $image;
+	protected $postmeta;
+	protected $theme;
+	protected $utility;
 
 	public function __construct( Image $image, PostMeta $postmeta, Theme $theme, Utility $utility )
 	{
@@ -29,11 +30,11 @@ class Gallery
 	/**
 	 * @return WP_Query
 	 */
-	public function query( array $args = [] )
+	public function get( array $args = [] )
 	{
 		$this->normalizeArgs( $args );
 
-		return new WP_Query([
+		$this->gallery = new WP_Query([
 			'orderby'        => 'post__in',
 			'paged'          => $this->getPaged(),
 			'post__in'       => $this->args['media'],
@@ -42,14 +43,16 @@ class Gallery
 			'post_status'    => 'inherit',
 			'posts_per_page' => $this->args['images_per_page'],
 		]);
+
+		return $this;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function render( WP_Query $gallery )
+	public function render()
 	{
-		$images = array_reduce( $gallery->posts, function( $images, $attachment ) {
+		$images = array_reduce( $this->gallery->posts, function( $images, $attachment ) {
 			return $images . $this->renderImage( $attachment );
 		});
 		return sprintf( '<div class="gallery-images" itemscope itemtype="http://schema.org/ImageGallery">%s</div>', $images );
@@ -60,7 +63,8 @@ class Gallery
 	 */
 	public function renderImage( WP_Post $attachment )
 	{
-		$image = $this->image->get( $attachment->ID );
+		$image = $this->image->get( $attachment->ID )->image;
+
 		if( !$image )return;
 		return sprintf(
 			'<figure class="gallery-image" data-w="%s" data-h="%s" data-ps=\'%s\' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">' .
@@ -80,16 +84,16 @@ class Gallery
 	/**
 	 * @return null|string
 	 */
-	public function renderPagination( WP_Query $query )
+	public function renderPagination()
 	{
 		if( !$this->args['pagination'] )return;
 		return paginate_links([
 			'before_page_number' => '<span class="screen-reader-text">' . __( 'Page', 'castor' ) . ' </span>',
-			'current'            => $query->query['paged'],
+			'current'            => $this->gallery->query['paged'],
 			'mid_size'           => 1,
 			'next_text'          => __( 'Next', 'castor' ),
 			'prev_text'          => __( 'Previous', 'castor' ),
-			'total'              => $query->max_num_pages,
+			'total'              => $this->gallery->max_num_pages,
 		]);
 	}
 
