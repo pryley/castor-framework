@@ -96,8 +96,17 @@ class Controller
 	 */
 	public function registerAssets()
 	{
-		wp_enqueue_style( 'castor/main.css', Theme::assetUri( 'css/main.css' ), [], null );
-		wp_enqueue_script( 'castor/main.js', Theme::assetUri( 'js/main.js' ), [], null, true );
+		wp_enqueue_style( 'castor/main.css',
+			Theme::assetUri( 'css/main.css' ),
+			apply_filters( 'castor/enqueue/css/deps', [] ),
+			null
+		);
+		wp_enqueue_script( 'castor/main.js',
+			Theme::assetUri( 'js/main.js' ),
+			apply_filters( 'castor/enqueue/js/deps', [] ),
+			null,
+			true
+		);
 	}
 
 	/**
