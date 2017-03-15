@@ -62,9 +62,20 @@ class Video
 	public function renderScreenshot()
 	{
 		if( !$this->args['image'] )return;
-		return sprintf( '<div class="video-screenshot" style="background-image: url(%s)">%s</div>',
+		return sprintf( '<div class="video-screenshot" style="background-image: url(%s)">%s</div>%s',
 			$this->args['image'],
-			$this->renderPlayButton()
+			$this->renderPlayButton(),
+			$this->renderSpinner()
+		);
+	}
+
+	public function renderSpinner()
+	{
+		return sprintf(
+			'<div class="video-spinner">' .
+				'<div class="spinner"><div class="spinner-dots">%s</div></div>' .
+			'</div>',
+			implode( '', array_fill( 0, 8, '<div class="spinner-dot"></div>' ))
 		);
 	}
 
