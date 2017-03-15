@@ -76,6 +76,7 @@ class Oembed
 
 		$args['origin'] = urlencode( get_bloginfo( 'url' ));
 
+		$node->setAttribute( 'class', 'video-embed' );
 		$node->setAttribute( 'src',
 			add_query_arg( $args, remove_query_arg( 'feature', $url ))
 		);
