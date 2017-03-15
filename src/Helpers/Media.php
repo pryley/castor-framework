@@ -37,7 +37,7 @@ class Media
 	public function __call( $name, array $args )
 	{
 		$mediaType = $this->validateMethod( $name );
-		if( !$mediaType ) {
+		if( $mediaType === false ) {
 			throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $name ));
 		}
 		if( !count( $args )) {
