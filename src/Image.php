@@ -21,7 +21,7 @@ class Image
 	/**
 	 * @param int|string $attachment
 	 *
-	 * @return null|object
+	 * @return self
 	 */
 	public function get( $attachment )
 	{
@@ -46,7 +46,9 @@ class Image
 
 	public function render( $size = 'large' )
 	{
-		return wp_get_attachment_image( $this->image->ID, $size );
+		if( $this->image ) {
+			return wp_get_attachment_image( $this->image->ID, $size );
+		}
 	}
 
 	protected function normalize( $attachmentId )

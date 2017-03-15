@@ -34,9 +34,9 @@ class Oembed
 			'width'  => 1280,
 			'height' => 1280,
 		]);
-		return $request
-			? $this->modifyRequest( $request, $args )
-			: $request;
+		if( $request ) {
+			return $this->modifyRequest( $request, $args );
+		}
 	}
 
 	protected function domLoad( $html )

@@ -7,6 +7,14 @@ use GeminiLabs\Castor\Image;
 use GeminiLabs\Castor\Video;
 use BadMethodCallException;
 
+/**
+ * @method string      gallery( array $args )
+ * @method \WP_Query   getGallery( array $args )
+ * @method object|void getImage( int|string $attachment )
+ * @method object|void getVideo( string|array $args )
+ * @method string|void image( int|string $attachment, string|array $size )
+ * @method string|void video( string|array $args )
+ */
 class Media
 {
 	protected $gallery;
@@ -34,6 +42,9 @@ class Media
 		}
 		if( !count( $args )) {
 			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
+		}
+		if( str_replace( $mediaType, '', strtolower( $name ))) {
+			return $this->$mediaType->get( $args[0] )->$mediaType;
 		}
 		return !empty( $args[1] )
 			? $this->$mediaType->get( $args[0] )->render( $args[1] )

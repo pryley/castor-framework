@@ -28,7 +28,7 @@ class Video
 		$this->utility  = $utility;
 	}
 
-	public function get( array $args = [] )
+	public function get( $args = [] )
 	{
 		$args = $this->normalize( $args );
 		$this->video = $this->oembed->request( $args['url'], $args['player'] );
@@ -88,8 +88,6 @@ class Video
 		if( is_string( $args )) {
 			$args = ['url' => $args];
 		}
-
-
 
 		$this->args = shortcode_atts([
 			'image'  => '', // string || int
