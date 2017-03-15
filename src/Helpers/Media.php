@@ -5,12 +5,13 @@ namespace GeminiLabs\Castor\Helpers;
 use GeminiLabs\Castor\Gallery;
 use GeminiLabs\Castor\Image;
 use GeminiLabs\Castor\Video;
+use BadMethodCallException;
 
 class Media
 {
-	public $gallery;
-	public $image;
-	public $video;
+	protected $gallery;
+	protected $image;
+	protected $video;
 
 	public function __construct( Gallery $gallery, Image $image, Video $video )
 	{
@@ -20,33 +21,42 @@ class Media
 	}
 
 	/**
-	 * @return void|string
+	 * @param string $method
+	 *
+	 * @return string|void
+	 * @throws BadMethodCallException
 	 */
-	public function gallery( array $args = [] )
+	public function __call( $method, array $args )
 	{
-		$gallery = $this->gallery->query( $args );
+		if( !$this->verifyClassProperty( $method )) {
+			throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $method ));
+		}
+		if( !count( $args )) {
+			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $method ));
+		}
+		isset( $args[1] ) || $args[1] = '';
+		return $this->$method->get( $args[0] )->render( $args[1] );
+	}
 
-		if( $gallery->have_posts() ) {
-			return $this->gallery->render( $gallery ) . $this->gallery->renderPagination( $gallery );
+	/**
+	 * @param string $mediaType
+	 *
+	 * @return mixed
+	 */
+	public function get( $mediaType, array $args = [] )
+	{
+		if( $this->verifyClassProperty( $mediaType )) {
+			return $this->$mediaType->get( $args )->$mediaType;
 		}
 	}
 
 	/**
-	 * @return WP_Query
+	 * @param string $name
+	 *
+	 * @return bool
 	 */
-	public function getGalleryQuery( array $args = [] )
+	protected function verifyClassProperty( $name )
 	{
-		return $this->gallery->query( $args );
-	}
-
-	/**
-	 * @return void|string
-	 */
-	public function video( $args = [] )
-	{
-		if( is_string( $args )) {
-			$args = ['url' => $args];
-		}
-		return $this->video->get( $args )->render();
+		return property_exists( $this, $name ) && is_object( $this->$name );
 	}
 }
