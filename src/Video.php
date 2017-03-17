@@ -16,6 +16,7 @@ class Video
 	protected $image;
 	protected $oembed;
 	protected $postmeta;
+	protected $supported = ['youtube'];
 	protected $theme;
 	protected $utility;
 
@@ -31,7 +32,10 @@ class Video
 	public function get( $args = [] )
 	{
 		$args = $this->normalize( $args );
-		$this->video = $this->oembed->request( $args['url'], $args['player'] );
+		$embed = $this->oembed->request( $args['url'], $args['player'] );
+		if( isset( $embed->type ) && $embed->type == 'video' ) {
+			$this->video = $embed;
+		}
 		return $this;
 	}
 
@@ -61,12 +65,14 @@ class Video
 
 	public function renderScreenshot()
 	{
-		if( !$this->args['image'] )return;
-		return sprintf( '%s<div class="video-poster" style="background-image: url(%s)">%s</div>',
-			$this->renderSpinner(),
-			$this->args['image'],
-			$this->renderPlayButton()
-		);
+		if( $this->args['image']
+			&& in_array( strtolower( $this->video->provider_name ), $this->supported )) {
+			return sprintf( '%s<div class="video-poster" style="background-image: url(%s)">%s</div>',
+				$this->renderSpinner(),
+				$this->args['image'],
+				$this->renderPlayButton()
+			);
+		}
 	}
 
 	public function renderSpinner()

@@ -30,13 +30,16 @@ class Oembed
 
 	public function request( $url, $args = '' )
 	{
+		$args = wp_parse_args( $args, [
+			'embed_type' => '',
+		]);
 		$request = $this->oembed->fetch( $this->oembed->get_provider( $url ), $url, [
 			'width'  => 1280,
 			'height' => 1280,
 		]);
-		if( $request ) {
-			return $this->modifyRequest( $request, $args );
-		}
+		if( $request === false )return;
+		if( !empty( $args['embed_type'] ) && $args['embed_type'] != $request->type )return;
+		return $this->modifyRequest( $request, $args );
 	}
 
 	protected function domLoad( $html )
@@ -57,7 +60,7 @@ class Oembed
 
 		if( method_exists( $this, $method )) {
 			return call_user_func( [$this, $method], $request, array_intersect_key(
-				wp_parse_args( $args ),
+				$args,
 				array_flip( $provider )
 			));
 		}

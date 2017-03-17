@@ -30,7 +30,13 @@ class Template
 		$templates = ["{$template}.php"];
 
 		if( 'index' != basename( $this->template, '.php' )) {
-			array_unshift( $templates, "{$template}-{$name}.php" );
+			$filepath = dirname( $template ) != '.'
+				? sprintf( '%s/', dirname( $template ))
+				: '';
+			array_unshift(
+				$templates,
+				sprintf( '%s%s-%s.php', $filepath, $name, basename( $template ))
+			);
 		}
 
 		$templates = apply_filters( "castor/templates/{$slug}", $templates, $name );

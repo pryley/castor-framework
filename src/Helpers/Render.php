@@ -59,6 +59,28 @@ class Render
 		echo str_replace( ']]>', ']]&gt;', apply_filters( 'the_content', $content ));
 	}
 
+	public function featured( $args = [] )
+	{
+		$args = wp_parse_args( $args, [
+			'class' => 'featured',
+			'image' => get_post_thumbnail_id(),
+			'video' => 'featured_video',
+		]);
+		$featuredHtml = $this->media->video( wp_parse_args( $args, [
+			'url' => $args['video'],
+		]));
+		if( empty( $featuredHtml ) && $featuredImage = $this->media->getImage( $args['image'] )) {
+			$featuredHtml = sprintf( '<div class="featured-image"><img src="%s" alt="%s"></div><figcaption>%s</figcaption>',
+				$featuredImage->large['url'],
+				$featuredImage->alt,
+				$featuredImage->caption
+			);
+		}
+		if( !empty( $featuredHtml )) {
+			printf( '<figure class="%s">%s</figure>', $args['class'], $featuredHtml );
+		}
+	}
+
 	public function gallery( array $args = [] )
 	{
 		echo $this->media->gallery( $args );
