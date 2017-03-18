@@ -19,6 +19,11 @@ window.castor =
 		if( el.classList ) el.classList.remove( className );
 		else el.className = el.className.replace( new RegExp( '\\b' + className + '\\b', 'g' ), '' );
 	},
+	// castor._toggleClass
+	_toggleClass: function( el, className ) {
+		if( !this._hasClass( el, className )) this._addClass( el, className );
+		else this._removeClass( el, className );
+	},
 	// castor._isString
 	_isString: function( str ) {
 		return Object.prototype.toString.call( str ) === "[object String]";
