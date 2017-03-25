@@ -38,19 +38,28 @@ window.castor =
 		if( !el )return;
 		el.removeEventListener( type, handler, false );
 	},
-	// castor._transitionEvent
-	_transitionEvent: function() {
-		var transition;
+	// castor._cssEventEnd
+	_cssEventEnd: function( eventType ) {
 		var el = document.createElement('fakeelement');
-		var transitions = {
-			'transition':'transitionend',
-			'OTransition':'oTransitionEnd',
-			'MozTransition':'transitionend',
-			'WebkitTransition':'webkitTransitionEnd',
+		var cssEvents = {
+			animation: {
+				animation:'animationend',
+				WebkitAnimation:'webkitAnimationEnd',
+				MozAnimation:'animationend',
+				OAnimation:'oAnimationEnd oanimationend',
+			},
+			transition: {
+				transition:'transitionend',
+				WebkitTransition:'webkitTransitionEnd',
+				MozTransition:'transitionend',
+				OTransition:'oTransitionEnd otransitionend',
+			},
 		};
-		for( transition in transitions ) {
-			if( el.style[transition] !== undefined ) {
-				return transitions[transition];
+		if( cssEvents.hasOwnProperty( eventType )) {
+			for( eventEnd in cssEvents[eventType] ) {
+				if( el.style[eventEnd] !== undefined ) {
+					return cssEvents[eventType][eventEnd];
+				}
 			}
 		}
 	},
