@@ -31,14 +31,12 @@ window.castor =
 	// castor._on
 	_on: function( type, el, handler ) {
 		if( !el )return;
-		if( el.attachEvent ) el.attachEvent( 'on' + type, handler );
-		else el.addEventListener( type, handler );
+		el.addEventListener( type, handler, false );
 	},
 	// castor._off
 	_off: function( type, el, handler ) {
 		if( !el )return;
-		if( el.detachEvent ) el.detachEvent( 'on' + type, handler );
-		else el.removeEventListener( type, handler );
+		el.removeEventListener( type, handler, false );
 	},
 	// castor._transitionEvent
 	_transitionEvent: function() {
