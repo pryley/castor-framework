@@ -51,11 +51,13 @@
 
 		onScroll: function( ev )
 		{
-			if( this.el.clientHeight === 0 )return;
-			if( !this.scrolling ) {
-				this.scrolling = true;
-				this.aF.request( this.autoHide.bind( this ));
-			}
+			this.aF.request( function() {
+				if( this.el.clientHeight === 0 || window.outerWidth < 768 )return;
+				if( !this.scrolling ) {
+					this.scrolling = true;
+					this.autoHide();
+				}
+			}.bind( this ));
 		},
 	};
 
