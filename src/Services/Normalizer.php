@@ -209,7 +209,7 @@ class Normalizer
 	 */
 	protected function filterInputType()
 	{
-		if( !isset( $this->args['type'] ) || !in_array( $this->args['type'], $this->inputTypes )) {
+		if( !isset( $this->args['type'] ) || !in_array( $this->args['type'], self::INPUT_TYPES )) {
 			$this->args['type'] = 'text';
 		}
 	}

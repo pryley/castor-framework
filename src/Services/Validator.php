@@ -440,11 +440,10 @@ class Validator
 	 * This validation rule implies the attribute is "required".
 	 *
 	 * @param mixed  $value
-	 * @param string $attribute
 	 *
 	 * @return bool
 	 */
-	protected function validateAccepted( $value, $attribute )
+	protected function validateAccepted( $value )
 	{
 		$acceptable = ['yes', 'on', '1', 1, true, 'true'];
 
