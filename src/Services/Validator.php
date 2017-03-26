@@ -448,7 +448,7 @@ class Validator
 	{
 		$acceptable = ['yes', 'on', '1', 1, true, 'true'];
 
-		return $this->validateRequired( $attribute, $value ) && in_array( $value, $acceptable, true );
+		return $this->validateRequired( $value ) && in_array( $value, $acceptable, true );
 	}
 
 	/**
@@ -466,19 +466,13 @@ class Validator
 
 		if( $rule == '' )return;
 
-		$value = $this->getValue( $attribute );
-
-		// is the value filled or is the attribute required?
-		// - removed $validatable assignment
-		$this->validateRequired( $attribute, $value ) || in_array( $rule, $this->implicitRules );
-
 		$method = "validate{$rule}";
 
 		if( !method_exists( $this, $method )) {
 			throw new BadMethodCallException( "Method [$method] does not exist." );
 		}
 
-		if( !$this->$method( $value, $attribute, $parameters )) {
+		if( !$this->$method( $this->getValue( $attribute ), $attribute, $parameters )) {
 			$this->addFailure( $attribute, $rule, $parameters );
 		}
 	}
