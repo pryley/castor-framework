@@ -76,7 +76,7 @@ class Validator
 
 		foreach( $this->rules as $attribute => $rules ) {
 			foreach( $rules as $rule ) {
-				$this->validateAttribute( $attribute, $rule );
+				$this->validateAttribute( $rule, $attribute );
 
 				if( $this->shouldStopValidating( $attribute ))break;
 			}
@@ -439,12 +439,12 @@ class Validator
 	 *
 	 * This validation rule implies the attribute is "required".
 	 *
-	 * @param string $attribute
 	 * @param mixed  $value
+	 * @param string $attribute
 	 *
 	 * @return bool
 	 */
-	protected function validateAccepted( $attribute, $value )
+	protected function validateAccepted( $value, $attribute )
 	{
 		$acceptable = ['yes', 'on', '1', 1, true, 'true'];
 
@@ -454,13 +454,13 @@ class Validator
 	/**
 	 * Validate a given attribute against a rule.
 	 *
-	 * @param string $attribute
 	 * @param string $rule
+	 * @param string $attribute
 	 *
 	 * @return void
 	 * @throws BadMethodCallException
 	 */
-	protected function validateAttribute( $attribute, $rule )
+	protected function validateAttribute( $rule, $attribute )
 	{
 		list( $rule, $parameters ) = $this->parseRule( $rule );
 
@@ -478,7 +478,7 @@ class Validator
 			throw new BadMethodCallException( "Method [$method] does not exist." );
 		}
 
-		if( !$this->$method( $attribute, $value, $parameters )) {
+		if( !$this->$method( $value, $attribute, $parameters )) {
 			$this->addFailure( $attribute, $rule, $parameters );
 		}
 	}
@@ -486,12 +486,12 @@ class Validator
 	/**
 	 * Validate the size of an attribute is between a set of values.
 	 *
-	 * @param string $attribute
 	 * @param mixed  $value
+	 * @param string $attribute
 	 *
 	 * @return bool
 	 */
-	protected function validateBetween( $attribute, $value, array $parameters )
+	protected function validateBetween( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 2, $parameters, 'between' );
 
@@ -503,12 +503,11 @@ class Validator
 	/**
 	 * Validate that an attribute is a valid e-mail address.
 	 *
-	 * @param string $attribute
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	protected function validateEmail( $attribute, $value )
+	protected function validateEmail( $value )
 	{
 		return filter_var( $value, FILTER_VALIDATE_EMAIL ) !== false;
 	}
@@ -516,12 +515,12 @@ class Validator
 	/**
 	 * Validate the size of an attribute is less than a maximum value.
 	 *
-	 * @param string $attribute
 	 * @param mixed  $value
+	 * @param string $attribute
 	 *
 	 * @return bool
 	 */
-	protected function validateMax( $attribute, $value, array $parameters )
+	protected function validateMax( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 1, $parameters, 'max' );
 
@@ -531,12 +530,12 @@ class Validator
 	/**
 	 * Validate the size of an attribute is greater than a minimum value.
 	 *
-	 * @param string $attribute
 	 * @param mixed  $value
+	 * @param string $attribute
 	 *
 	 * @return bool
 	 */
-	protected function validateMin( $attribute, $value, array $parameters )
+	protected function validateMin( $value, $attribute, array $parameters )
 	{
 		$this->requireParameterCount( 1, $parameters, 'min' );
 
@@ -546,12 +545,11 @@ class Validator
 	/**
 	 * Validate that an attribute is numeric.
 	 *
-	 * @param string $attribute
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	protected function validateNumeric( $attribute, $value )
+	protected function validateNumeric( $value )
 	{
 		return is_numeric( $value );
 	}
@@ -559,16 +557,16 @@ class Validator
 	/**
 	 * Validate that a required attribute exists.
 	 *
-	 * @param string $attribute
-	 * @param mixed  $value
+	 * @param mixed $value
 	 *
 	 * @return bool
 	 */
-	protected function validateRequired( $attribute, $value )
+	protected function validateRequired( $value )
 	{
-		return is_null( $value )
-			|| ( is_string( $value ) && trim( $value ) === '' )
-			|| ( is_array( $value ) && count( $value ) < 1 )
+		if( is_string( $value )) {
+			$value = trim( $value );
+		}
+		return is_null( $value ) || empty( $value )
 			? false
 			: true;
 	}

@@ -81,6 +81,14 @@ class Render
 		}
 	}
 
+	public function field( $name, array $args = [] )
+	{
+	}
+
+	public function form( $name, array $args = [] )
+	{
+	}
+
 	public function gallery( array $args = [] )
 	{
 		echo $this->media->gallery( $args );
