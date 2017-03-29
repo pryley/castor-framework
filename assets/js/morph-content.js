@@ -1,5 +1,4 @@
 /* jshint curly:false, forin:false, expr:true */
-
 ;(function( window, document, undefined ) {
 	"use strict";
 
