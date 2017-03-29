@@ -177,10 +177,10 @@ class Email
 	 */
 	protected function normalize( $email )
 	{
-		$defaults = array_flip([
+		$defaults = array_fill_keys([
 			'after', 'attachments', 'bcc', 'before', 'cc', 'from', 'message', 'reply-to', 'subject',
 			'template', 'template-tags', 'to',
-		]);
+		], '' );
 		$defaults['from'] = $this->getDefaultFrom();
 
 		$email = shortcode_atts( $defaults, $email );
