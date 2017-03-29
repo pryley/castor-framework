@@ -124,6 +124,19 @@ class Utility
 	}
 
 	/**
+	 * @param mixed $value
+	 *
+	 * @return array
+	 */
+	public function toArray( $value )
+	{
+		if( is_string( $value )) {
+			$value = trim( $value );
+		}
+		return array_filter((array) $value );
+	}
+
+	/**
 	 * @param string $string
 	 * @param string $needle
 	 * @param bool   $caseSensitive

@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\Castor;
+namespace GeminiLabs\Castor\Services;
 
 class Normalizer
 {
@@ -54,9 +54,9 @@ class Normalizer
 	 */
 	protected $args;
 
-	public function __construct( array $args = [] )
+	public function __construct()
 	{
-		$this->args = $args;
+		$this->args = [];
 	}
 
 	/**

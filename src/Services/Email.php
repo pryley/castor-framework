@@ -1,6 +1,6 @@
 <?php
 
-namespace GeminiLabs\Castor;
+namespace GeminiLabs\Castor\Services;
 
 use GeminiLabs\Castor\Helpers\Template;
 
