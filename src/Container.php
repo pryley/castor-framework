@@ -25,6 +25,13 @@ abstract class Container
      */
 	protected $services = [];
 
+    /**
+     * The container's bucket items
+     *
+     * @var array
+     */
+	protected $bucket = [];
+
 	/**
 	 * Set the globally available instance of the container.
 	 *
@@ -91,28 +98,30 @@ abstract class Container
 	}
 
 	/**
-	 * Dynamically access container services.
+	 * Dynamically access container bucket items.
 	 *
-	 * @param string $service
+	 * @param string $item
 	 *
 	 * @return mixed
 	 */
-	public function __get( $service )
+	public function __get( $item )
 	{
-		return $this->make( $service );
+		return isset( $this->bucket[$item] )
+			? $this->bucket[$item]
+			: null;
 	}
 
 	/**
-	 * Dynamically set container services.
+	 * Dynamically set container bucket items.
 	 *
-	 * @param string $service
-	 * @param mixed  $callback
+	 * @param string $item
+	 * @param mixed  $value
 	 *
 	 * @return void
 	 */
-	public function __set( $service, $callback )
+	public function __set( $item, $value )
 	{
-		$this->bind( $service, $callback );
+		$this->bucket[$item] = $value;
 	}
 
 	/**
