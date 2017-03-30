@@ -3,11 +3,13 @@
 
 	var Plugin = function( videoEl, options )
 	{
-		this.hasLoaded = typeof YT === undefined;
-		this.options = options;
-		this.player = null;
 		this.video = videoEl;
-		this.init();
+		if( this.video ) {
+			this.hasLoaded = typeof YT === undefined;
+			this.options = castor._extend( this.defaults, options );
+			this.player = null;
+			this.init();
+		}
 	};
 
 	Plugin.prototype =
@@ -23,9 +25,8 @@
 			if( this.hasLoaded === false ) {
 				this.injectScript();
 			}
-			this.config = castor._extend( {}, this.defaults, this.options );
 			this.onYouTubePlayerAPIReady();
-			castor._addClass( this.video.querySelector( this.config.poster ), 'hide' );
+			castor._addClass( this.video.querySelector( this.options.poster ), 'hide' );
 		},
 
 		injectScript: function()
@@ -39,7 +40,7 @@
 
 		onReady: function()
 		{
-			var spinner = this.video.querySelector( this.config.spinner );
+			var spinner = this.video.querySelector( this.options.spinner );
 			this.player.playVideo();
 			setTimeout( function() {
 				castor._addClass( spinner, 'hide' );
@@ -48,7 +49,7 @@
 
 		playerHasLoaded: function()
 		{
-			this.player = new YT.Player( this.video.querySelector( this.config.iframe ), {
+			this.player = new YT.Player( this.video.querySelector( this.options.iframe ), {
 				events: {
 					onReady: this.onReady.bind( this ),
 				},

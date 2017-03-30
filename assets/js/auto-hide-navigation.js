@@ -3,10 +3,12 @@
 
 	var Plugin = function( navigationSelector, options )
 	{
-		this.aF = new AnimationFrame();
 		this.el = document.querySelector( navigationSelector );
-		this.options = options;
-		this.init();
+		if( this.el ) {
+			this.aF = new AnimationFrame();
+			this.options = castor._extend( this.defaults, options );
+			this.init();
+		}
 	};
 
 	Plugin.prototype =
@@ -18,7 +20,6 @@
 
 		init: function()
 		{
-			this.config = castor._extend( this.defaults, this.options );
 			// castor._on( 'click', this.el.querySelector( '.open-main-menu' ), this.onClick.bind( this ));
 			castor._on( 'scroll', window, this.onScroll.bind( this ));
 		},
@@ -34,11 +35,11 @@
 		checkNavigation: function( currentTop )
 		{
 			// scrolling up
-			if( this.previousTop - currentTop > this.config.scrollDelta ) {
+			if( this.previousTop - currentTop > this.options.scrollDelta ) {
 				castor._removeClass( this.el, 'is-hidden' );
 			}
 			// scrolling down
-			else if( currentTop - this.previousTop > this.config.scrollDelta && currentTop > this.config.scrollOffset ) {
+			else if( currentTop - this.previousTop > this.options.scrollDelta && currentTop > this.options.scrollOffset ) {
 				castor._addClass( this.el, 'is-hidden' );
 			}
 		},

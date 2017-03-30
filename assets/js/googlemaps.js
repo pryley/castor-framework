@@ -4,7 +4,10 @@
 	var Plugin = function( selector, options, markerOptions )
 	{
 		this.el = castor._isString( selector ) ? document.querySelector( selector ) : selector;
-		this.init( options, markerOptions );
+		if( this.el ) {
+			this.options = castor._extend( this.defaults, options, this.el.getAttribute( 'data-map-options' ));
+			this.init( markerOptions );
+		}
 	}
 
 	Plugin.prototype =
@@ -26,10 +29,8 @@
 			zoomControl: true,
 		},
 
-		init: function( options, markerOptions )
+		init: function( markerOptions )
 		{
-			this.options = castor._extend( {}, this.defaults, options, this.el.getAttribute( 'data-map-options' ));
-
 			this.map = new google.maps.Map( this.el, this.options );
 
 			this.markerOptions = castor._extend({

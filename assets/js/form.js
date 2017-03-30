@@ -4,9 +4,11 @@
 	var Plugin = function( selector, options )
 	{
 		this.el = castor._isString( selector ) ? document.querySelector( selector ) : selector;
-		this.options = castor._extend( {}, options, this.defaults, this.el.getAttribute( 'data-options' ));
-		this.init();
-	}
+		if( this.el ) {
+			this.options = castor._extend( this.defaults, options, this.el.getAttribute( 'data-options' ));
+			this.init();
+		}
+	};
 
 	Plugin.prototype =
 	{
@@ -43,7 +45,7 @@
 
 		onChange: function( ev )
 		{
-			castor.clearFieldError( ev.target );
+			this.clearFieldError( ev.target );
 		},
 
 		onSubmit: function( ev )
@@ -65,40 +67,40 @@
 			{
 				var name = parts.shift();
 				// Keep track of the dot separated fullname
-				seenName = seenName ? seenName + '.' + name : name;
+				seenName = seenName ? seenName+'.'+name : name;
 				if( parts.length ) {
-					if( !data[ name ] ) {
-						data[ name ] = {};
+					if( !data[name] ) {
+						data[name] = {};
 					}
 					// Recursive call
-					nestData( field, data[ name ], parts, seenName );
+					nestData( field, data[name], parts, seenName );
 				}
 				else {
 					// Convert the value
 					var value = convert ? this._convertValue( field.value ) : field.value;
 					// Handle same name case, as well as "last checkbox checked" case
-					if( seenName in seen && field.type !== "radio" && !data[ name ].isArray()) {
-						data[ name ] = ( name in data ) ? [data[name]] : [];
+					if( seenName in seen && field.type !== "radio" && !data[name].isArray()) {
+						data[name] = ( name in data ) ? [data[name]] : [];
 					}
 					else {
-						seen[ seenName ] = true;
+						seen[seenName] = true;
 					}
 					// Finally, assign data
 					if( this._inArray( field.type, ['radio','checkbox'] ) && !field.checked )return;
-					if( !data[ name ] ) {
-						data[ name ] = value;
+					if( !data[name] ) {
+						data[name] = value;
 					}
 					else {
-						data[ name ].push( value );
+						data[name].push( value );
 					}
 				}
-			};
+			}.bind( this );
 			for( var i = 0; i < this.el.length; i++ ) {
 				var field = this.el[i];
 				if( !field.name || field.disabled || this._inArray( field.type, ['file','reset','submit','button'] ))continue;
 				var parts = field.name.match( keyBreaker );
 				if( !parts.length ) {
-					parts = [ field.name ];
+					parts = [field.name];
 				}
 				nestData( field, data, parts );
 			}
@@ -146,7 +148,7 @@
 		{
 			var messageEl = this.el.querySelector( '.'+this.options.formMessageClass );
 			if( messageEl === null ) {
-				messageEl = castor._insertBefore( this.button ), 'div', {
+				messageEl = castor._insertBefore( this.button, 'div', {
 					'class': this.options.formMessageClass,
 				});
 			}
@@ -157,7 +159,7 @@
 		submitForm: function()
 		{
 			var data = {
-				action : 'submit-' + this.el.id,
+				action: 'submit-' + this.el.id,
 				request: this.parseFormData(),
 			};
 			castor._removeEl( '.'+this.options.formMessageClass, this.el );
@@ -207,16 +209,17 @@
 		_isNumeric: function( value )
 		{
 			return !( isNaN( parseFloat( value )) || !isFinite( value ));
-		};
+		},
 
-		_serialize = function( obj, prefix )
+		_serialize: function( obj, prefix )
 		{
 			var str = [];
 			for( var property in obj ) {
 				if( !obj.hasOwnProperty( property ))continue;
 				var key = prefix ? prefix + "[" + property + "]" : property;
 				var value = obj[ property ];
-				str.push( typeof value === "object" ?
+				str.push(
+					typeof value === "object" ?
 					this._serialize( value, key ) :
 					encodeURIComponent( key ) + "=" + encodeURIComponent( value )
 				);

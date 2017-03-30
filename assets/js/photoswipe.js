@@ -4,10 +4,12 @@
 	var Plugin = function( selector, options, photoswipeOptions )
 	{
 		this.galleries = castor._isString( selector ) ? document.querySelectorAll( selector ) : selector;
-		this.imageSize = 'l';
-		this.options = options;
-		this.photoswipeOptions = photoswipeOptions;
-		this.init();
+		if( this.galleries ) {
+			this.imageSize = 'l';
+			this.options = castor._extend( this.defaults, options );
+			this.photoswipeOptions = photoswipeOptions;
+			this.init();
+		}
 	}
 
 	Plugin.prototype =
@@ -21,7 +23,6 @@
 		init: function()
 		{
 			var self = this;
-			this.config = castor._extend( {}, this.defaults, this.options );
 			this.parseHash( this.galleries );
 			[].forEach.call( this.galleries, function( gallery, index ) {
 				gallery.setAttribute( 'data-pswp-uid', index + 1 );
@@ -93,7 +94,7 @@
 
 		onClick: function( ev )
 		{
-			var clickedListItem = ev.target.closest( this.config.imageSelector );
+			var clickedListItem = ev.target.closest( this.options.imageSelector );
 			if( !clickedListItem )return;
 			var clickedGallery = clickedListItem.parentNode;
 			var self = this;
@@ -150,13 +151,13 @@
 			var self = this;
 			[].forEach.call( galleryElement.children, function( el, index ) {
 				var img = el.querySelector( 'img' );
-				var caption = el.querySelector( self.config.captionSelector );
+				var caption = el.querySelector( self.options.captionSelector );
 				var data = JSON.parse( el.getAttribute( 'data-ps' ));
 				var item = data.l;
 				item.l = data.l;
 				item.m = data.m;
 				if( img ) {
-					item.msrc = img.getAttribute( self.config.thumbnailSrcAttribute ); // thumbnail url
+					item.msrc = img.getAttribute( self.options.thumbnailSrcAttribute ); // thumbnail url
 				}
 				if( caption ) {
 					item.title = caption.innerHTML;
