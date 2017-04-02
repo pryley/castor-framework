@@ -47,7 +47,7 @@
 		{
 			(new AnimationFrame()).request( function() {
 				this.map.setCenter( this.marker.getPosition() );
-			});
+			}.bind( this ));
 		},
 	};
 

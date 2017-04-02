@@ -22,12 +22,11 @@
 
 		init: function()
 		{
-			var self = this;
 			this.parseHash( this.galleries );
 			[].forEach.call( this.galleries, function( gallery, index ) {
 				gallery.setAttribute( 'data-pswp-uid', index + 1 );
-				castor._on( 'click', gallery, self.onClick.bind( self ));
-			});
+				castor._on( 'click', gallery, this.onClick.bind( this ));
+			}.bind( this ));
 		},
 
 		beforeResize: function()
@@ -97,13 +96,12 @@
 			var clickedListItem = ev.target.closest( this.options.imageSelector );
 			if( !clickedListItem )return;
 			var clickedGallery = clickedListItem.parentNode;
-			var self = this;
 			[].some.call( clickedGallery.children, function( el, index ) {
 				if( clickedListItem === el ) {
-					self.open( index, clickedGallery );
+					this.open( index, clickedGallery );
 					return true;
 				}
-			});
+			}.bind( this ));
 			ev.preventDefault();
 		},
 
@@ -148,22 +146,21 @@
 		parseThumbnails: function( galleryElement )
 		{
 			var items = [];
-			var self = this;
 			[].forEach.call( galleryElement.children, function( el, index ) {
 				var img = el.querySelector( 'img' );
-				var caption = el.querySelector( self.options.captionSelector );
+				var caption = el.querySelector( this.options.captionSelector );
 				var data = JSON.parse( el.getAttribute( 'data-ps' ));
 				var item = data.l;
 				item.l = data.l;
 				item.m = data.m;
 				if( img ) {
-					item.msrc = img.getAttribute( self.options.thumbnailSrcAttribute ); // thumbnail url
+					item.msrc = img.getAttribute( this.options.thumbnailSrcAttribute ); // thumbnail url
 				}
 				if( caption ) {
 					item.title = caption.innerHTML;
 				}
 				items.push( item );
-			});
+			}.bind( this ));
 			return items;
 		},
 	};
