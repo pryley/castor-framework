@@ -107,6 +107,11 @@ class Controller
 			null,
 			true
 		);
+		wp_localize_script( 'castor/main.js', apply_filters( 'castor/enqueue/js/localize/variable', 'globals' ),
+			apply_filters( 'castor/enqueue/js/localize/variables', [
+				'ajax' => admin_url( 'admin-ajax.php' ),
+			])
+		);
 	}
 
 	/**
