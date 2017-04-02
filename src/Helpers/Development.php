@@ -9,7 +9,7 @@ class Development
 	public function capture()
 	{
 		ob_start();
-		call_user_func_array( [$this, 'print'], func_get_args() );
+		call_user_func_array( [$this, 'printF'], func_get_args() );
 		return ob_get_clean();
 	}
 
@@ -22,7 +22,7 @@ class Development
 
 	public function debug()
 	{
-		call_user_func_array( [$this, 'print'], func_get_args() );
+		call_user_func_array( [$this, 'printF'], func_get_args() );
 	}
 
 	public function isDev()
@@ -35,7 +35,34 @@ class Development
 		return WP_ENV == 'production';
 	}
 
-	public function print()
+	public function printFiltersFor( $hook = '' )
+	{
+		global $wp_filter;
+		if( empty( $hook ) || !isset( $wp_filter[$hook] ))return;
+		$this->printF( $wp_filter[ $hook ] );
+	}
+
+	public function printTemplatePaths()
+	{
+		if( $this->isDev() && ( DEV == 'templates' || DEV === true )) {
+			$templates = array_keys( array_flip( $this->templatePaths ));
+			$templates = array_map( function( $key, $value ) {
+				return sprintf( '[%s] => %s', $key, $value );
+			}, array_keys( $templates ), $templates );
+
+			$this->printF( implode( "\n", $templates ));
+		}
+	}
+
+	public function storeTemplatePath( $template )
+	{
+		if( is_string( $template )) {
+			$themeName = basename( strstr( $template, '/templates/', true ));
+			$this->templatePaths[] = $themeName . strstr( $template, '/templates/' );
+		}
+	}
+
+	protected function printF()
 	{
 		$args = func_num_args();
 
@@ -47,36 +74,9 @@ class Development
 		else if( $args > 1 ) {
 			echo '<div class="print__r_group">';
 			foreach( func_get_args() as $value ) {
-				$this->print( $value );
+				$this->printF( $value );
 			}
 			echo '</div>';
-		}
-	}
-
-	public function printFiltersFor( $hook = '' )
-	{
-		global $wp_filter;
-		if( empty( $hook ) || !isset( $wp_filter[$hook] ))return;
-		$this->print( $wp_filter[ $hook ] );
-	}
-
-	public function printTemplatePaths()
-	{
-		if( $this->isDev() && ( DEV == 'templates' || DEV === true )) {
-			$templates = array_keys( array_flip( $this->templatePaths ));
-			$templates = array_map( function( $key, $value ) {
-				return sprintf( '[%s] => %s', $key, $value );
-			}, array_keys( $templates ), $templates );
-
-			$this->print( implode( "\n", $templates ));
-		}
-	}
-
-	public function storeTemplatePath( $template )
-	{
-		if( is_string( $template )) {
-			$themeName = basename( strstr( $template, '/templates/', true ));
-			$this->templatePaths[] = $themeName . strstr( $template, '/templates/' );
 		}
 	}
 }
