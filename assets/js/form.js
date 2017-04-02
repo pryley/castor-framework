@@ -4,8 +4,9 @@
 	var Plugin = function( selector, options )
 	{
 		this.el = castor._isString( selector ) ? document.querySelector( selector ) : selector;
+		this.options = castor._extend( this.defaults, options );
 		if( this.el ) {
-			this.options = castor._extend( this.defaults, options, this.el.getAttribute( 'data-options' ));
+			this.options = castor._extend( this.options, this.el.getAttribute( 'data-options' ));
 			this.init();
 		}
 	};
@@ -13,6 +14,7 @@
 	Plugin.prototype =
 	{
 		defaults: {
+			ajaxUrl: '/ajax.php',
 			buttonSelector: '[type="submit"]',
 			fieldClass: 'form-field',
 			fieldErrorsClass: 'field-errors',
@@ -111,12 +113,13 @@
 		{
 			var params = typeof data !== 'string' ? this._serialize( data ) : data;
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject( "Microsoft.XMLHTTP" );
-			xhr.open( 'POST', '/ajax.php' ); // asynchronously
+			xhr.open( 'POST', this.options.ajaxUrl ); // asynchronously
 			xhr.onreadystatechange = function() {
 				if( xhr.readyState > 3 && xhr.status === 200 ) {
 					success( JSON.parse( xhr.responseText ));
 				}
 			};
+			xhr.setRequestHeader( 'Accept', 'application/json' );
 			xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
 			xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
 			xhr.send( params );
@@ -166,9 +169,7 @@
 			this.postAjax( data, function( response ) {
 				this.clearFormErrors();
 				this.showFormMessage( response );
-				if( this.button.disabled ) {
-					this.button.removeAttribute( 'disabled' );
-				}
+				this.button.removeAttribute( 'disabled' );
 				if( !!response.errors ) {
 					this.showFormErrors( response.errors );
 				}
