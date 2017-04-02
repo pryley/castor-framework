@@ -12,6 +12,10 @@ class PostMeta
 		$metaKey = $this->buildMetaKey( $metaKey, $args['prefix'] );
 		$metaValue = get_post_meta( $args['ID'], $metaKey, $args['single'] );
 
+		if( is_string( $metaValue )) {
+			$metaValue = trim( $metaValue );
+		}
+
 		return empty( $metaValue )
 			? $args['fallback']
 			: $metaValue;
