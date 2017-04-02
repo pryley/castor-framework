@@ -62,9 +62,10 @@ class Render
 	public function featured( $args = [] )
 	{
 		$args = wp_parse_args( $args, [
-			'class' => 'featured',
-			'image' => get_post_thumbnail_id(),
-			'video' => 'featured_video',
+			'class'  => 'featured',
+			'image'  => get_post_thumbnail_id(),
+			'player' => '',
+			'video'  => 'featured_video',
 		]);
 		$featuredHtml = $this->media->video( wp_parse_args( $args, [
 			'url' => $args['video'],
