@@ -2,17 +2,11 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
-use GeminiLabs\Castor\Helpers\Utility;
+use GeminiLabs\Castor\Facades\Development;
+use GeminiLabs\Castor\Facades\Utility;
 
 class Template
 {
-	public $util;
-
-	public function __construct( Utility $util )
-	{
-		$this->util = $util;
-	}
-
 	/**
 	 * @var string
 	 */
@@ -26,7 +20,7 @@ class Template
 	 */
 	public function get( $slug, $name = '' )
 	{
-		$template  = $this->util->startWith( 'templates/', $slug );
+		$template  = Utility::startWith( 'templates/', $slug );
 		$templates = ["{$template}.php"];
 
 		if( 'index' != basename( $this->template, '.php' )) {
@@ -54,6 +48,7 @@ class Template
 	{
 		$template = $this->get( $slug, $name );
 		if( !empty( $template )) {
+			Development::storeTemplatePath( $template );
 			load_template( $template, false );
 		}
 	}
@@ -73,7 +68,7 @@ class Template
 	 */
 	public function setLayout( $template )
 	{
-		$this->template = $this->util->trimRight( strstr( $template, 'templates/' ), '.php' );
+		$this->template = Utility::trimRight( strstr( $template, 'templates/' ), '.php' );
 		return $this->get( apply_filters( 'castor/templates/layout', 'layouts/default' ));
 	}
 }
