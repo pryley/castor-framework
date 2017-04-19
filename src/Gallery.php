@@ -52,6 +52,7 @@ class Gallery
 	 */
 	public function render()
 	{
+		if( empty( $this->args['media'] ))return;
 		$images = array_reduce( $this->gallery->posts, function( $images, $attachment ) {
 			return $images . $this->renderImage( $attachment );
 		});
