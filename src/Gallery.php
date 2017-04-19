@@ -56,7 +56,10 @@ class Gallery
 		$images = array_reduce( $this->gallery->posts, function( $images, $attachment ) {
 			return $images . $this->renderImage( $attachment );
 		});
-		return sprintf( '<div class="gallery-images" itemscope itemtype="http://schema.org/ImageGallery">%s</div>', $images );
+		return sprintf( '<div class="gallery-images" itemscope itemtype="http://schema.org/ImageGallery">%s</div>%s',
+			$images,
+			$this->renderPagination()
+		);
 	}
 
 	/**
