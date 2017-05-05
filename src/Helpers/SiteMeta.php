@@ -2,49 +2,98 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
+/**
+ * SiteMeta::all();
+ * SiteMeta::group();
+ * SiteMeta::group('option','fallback');
+ * SiteMeta::get('group');
+ * SiteMeta::get('group','option','fallback');
+ *
+ * @property object all
+ */
 class SiteMeta
 {
+	protected $options;
+
+	public function __construct()
+	{
+		$this->options = get_option( apply_filters( 'pollux/settings/id', 'pollux_settings' ), [] );
+	}
+
 	/**
-	 * @param string       $group
-	 * @param false|string $key
-	 * @param mixed        $fallback
-	 *
+	 * @param string $group
+	 * @return object|array|null
+	 */
+	public function __call( $group, $args )
+	{
+		$args = array_pad( $args, 2, null );
+		$group = $this->$group;
+		if( is_object( $group )) {
+			return $group;
+		}
+		return $this->get( $group, $args[0], $args[1] );
+	}
+
+	/**
+	 * @param string $group
+	 * @return object|array|null
+	 */
+	public function __get( $group )
+	{
+		if( $group == 'all' ) {
+			return (object) $this->options;
+		}
+		if( empty( $group )) {
+			$group = $this->getDefaultGroup();
+		}
+		return isset( $this->options[$group] )
+			? $this->options[$group]
+			: null;
+	}
+
+	/**
+	 * @param string $group
+	 * @param string|null $key
+	 * @param mixed $fallback
 	 * @return mixed
 	 */
-	public function get( $group, $key = false, $fallback = '' )
+	public function get( $group = '', $key = '', $fallback = null )
 	{
-		$metaKey = sprintf( '%ssettings-%s', apply_filters( 'castor/sitemeta/prefix', 'pollux_' ), $group );
-		$options = get_option( $metaKey, false );
-
-		if( !$options || !is_array( $options )) {
+		if( func_num_args() < 1 ) {
+			return $this->all;
+		}
+		if( is_string( $group )) {
+			$group = $this->$group;
+		}
+		if( !is_array( $group )) {
 			return $fallback;
 		}
+		if( is_null( $key )) {
+			return $group;
+		}
+		return $this->getValue( $group, $key, $fallback );
+	}
 
-		return is_string( $key )
-			? $this->normalize( $options, $key, $fallback )
-			: $options;
+	/**
+	 * @return string
+	 */
+	protected function getDefaultGroup()
+	{
+		return '';
 	}
 
 	/**
 	 * @param string $key
-	 * @param mixed  $fallback
-	 *
+	 * @param mixed $fallback
 	 * @return mixed
 	 */
-	protected function normalize( array $options, $key, $fallback )
+	protected function getValue( array $group, $key, $fallback )
 	{
-		if( !array_key_exists( $key, $options )) {
+		if( !array_key_exists( $key, $group )) {
 			return $fallback;
 		}
-
-		$option = $options[$key];
-
-		$option = is_array( $option )
-			? array_filter( $option )
-			: trim( $option );
-
-		return empty( $option )
+		return empty( $group[$key] ) && !is_null( $fallback )
 			? $fallback
-			: $option;
+			: $group[$key];
 	}
 }
