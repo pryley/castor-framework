@@ -3,11 +3,11 @@
 namespace GeminiLabs\Castor;
 
 use Closure;
+use GeminiLabs\Castor\Contracts\ServiceProvider;
+use GeminiLabs\Castor\Exceptions\BindingResolutionException;
 use ReflectionClass;
 use ReflectionParameter;
 use RuntimeException;
-use GeminiLabs\Castor\Contracts\ServiceProvider;
-use GeminiLabs\Castor\Exceptions\BindingResolutionException;
 
 abstract class Container
 {
