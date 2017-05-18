@@ -34,6 +34,14 @@ class Theme
 	}
 
 	/**
+	 * @return string
+	 */
+	public function copyright()
+	{
+		return __( 'Copyright', 'castor' ) . ' &copy; ' . date( 'Y' ) . ', ' . get_bloginfo( 'name' );
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function displaySidebar()
