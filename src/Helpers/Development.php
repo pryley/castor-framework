@@ -2,9 +2,18 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
+use GeminiLabs\Castor\Helpers\Utility;
+
 class Development
 {
 	public $templatePaths = [];
+
+	protected $utility;
+
+	public function __construct( Utility $utility )
+	{
+		$this->utility  = $utility;
+	}
 
 	public function capture()
 	{
@@ -45,11 +54,9 @@ class Development
 	public function printTemplatePaths()
 	{
 		if( $this->isDev() && ( DEV == 'templates' || DEV === true )) {
-			$templates = array_keys( array_flip( $this->templatePaths ));
 			$templates = array_map( function( $key, $value ) {
 				return sprintf( '[%s] => %s', $key, $value );
-			}, array_keys( $templates ), $templates );
-
+			}, array_keys( $this->templatePaths ), $this->templatePaths );
 			$this->printF( implode( "\n", $templates ));
 		}
 	}
@@ -57,8 +64,7 @@ class Development
 	public function storeTemplatePath( $template )
 	{
 		if( is_string( $template )) {
-			$themeName = basename( strstr( $template, '/templates/', true ));
-			$this->templatePaths[] = $themeName . strstr( $template, '/templates/' );
+			$this->templatePaths[] = $this->utility->trimLeft( $template, trailingslashit( WP_CONTENT_DIR ));
 		}
 	}
 

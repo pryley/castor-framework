@@ -20,22 +20,18 @@ class Template
 	 */
 	public function get( $slug, $name = '' )
 	{
-		$template  = Utility::startWith( 'templates/', $slug );
+		$template = Utility::startWith( 'templates/', $slug );
 		$templates = ["{$template}.php"];
-
-		if( 'index' != basename( $this->template, '.php' )) {
-			$filepath = dirname( $template ) != '.'
-				? sprintf( '%s/', dirname( $template ))
-				: '';
-			array_unshift(
-				$templates,
-				sprintf( '%s%s-%s.php', $filepath, $name, basename( $template ))
-			);
+		if( !empty( $name )) {
+			$fileName = basename( $template );
+			$filePath = Utility::trimRight( $template, $fileName );
+			array_unshift( $templates, sprintf( '%s/%s.php', $filePath . $name, $fileName ));
 		}
-
-		$templates = apply_filters( "castor/templates/{$slug}", $templates, $name );
-
-		return locate_template( $templates );
+		$templates = array_unique( apply_filters( "castor/templates/{$slug}", $templates, $name ));
+		$template = locate_template( $templates );
+		return empty( $template ) && file_exists( "{$slug}.php" )
+			? "{$slug}.php"
+			: $template;
 	}
 
 	/**
@@ -46,8 +42,7 @@ class Template
 	 */
 	public function load( $slug, $name = '' )
 	{
-		$template = $this->get( $slug, $name );
-		if( !empty( $template )) {
+		if( !empty(( $template = $this->get( $slug, $name )))) {
 			Development::storeTemplatePath( $template );
 			load_template( $template, false );
 		}
@@ -68,7 +63,7 @@ class Template
 	 */
 	public function setLayout( $template )
 	{
-		$this->template = Utility::trimRight( strstr( $template, 'templates/' ), '.php' );
+		$this->template = Utility::trimRight( $template, '.php' );
 		return $this->get( apply_filters( 'castor/templates/layout', 'layouts/default' ));
 	}
 }
