@@ -2,9 +2,9 @@
 
 global $wp_version;
 
-if( !is_admin() && version_compare( '5.6', phpversion(), '>' )) {
+if( !is_admin() && version_compare( '7.0', phpversion(), '>' )) {
 	wp_die(
-		__( 'You must be using PHP 5.6.0 or greater.', 'castor' ),
+		__( 'You must be using PHP 7.0.0 or greater.', 'castor' ),
 		__( 'Unsupported PHP version', 'castor' )
 	);
 }
