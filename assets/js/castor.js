@@ -9,12 +9,18 @@ window.castor =
 		else return new RegExp( '\\b' + className + '\\b' ).test( el.className );
 	},
 	_addClass: function( el, className ) {
-		if( el.classList ) el.classList.add( className );
-		else if( !this._hasClass( el, className )) el.className += ' ' + className;
+		className.split( ' ' ).forEach( function( str ) {
+			if( el.classList ) el.classList.add( str );
+			else if( !this._hasClass( el, str )) el.className += ' ' + str;
+		});
+		return el;
 	},
 	_removeClass: function( el, className ) {
-		if( el.classList ) el.classList.remove( className );
-		else el.className = el.className.replace( new RegExp( '\\b' + className + '\\b', 'g' ), '' );
+		className.split( ' ' ).forEach( function( str ) {
+			if( el.classList ) el.classList.remove( str );
+			else el.className = el.className.replace( new RegExp( '\\b' + str + '\\b', 'g' ), '' );
+		});
+		return el;
 	},
 	_toggleClass: function( el, className ) {
 		if( !this._hasClass( el, className )) this._addClass( el, className );
@@ -48,7 +54,7 @@ window.castor =
 			},
 		};
 		if( cssEvents.hasOwnProperty( eventType )) {
-			for( eventEnd in cssEvents[eventType] ) {
+			for( var eventEnd in cssEvents[eventType] ) {
 				if( el.style[eventEnd] !== undefined ) {
 					return cssEvents[eventType][eventEnd];
 				}
