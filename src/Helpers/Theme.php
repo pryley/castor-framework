@@ -119,8 +119,8 @@ class Theme
 	 */
 	public function svg( $path = null )
 	{
-		if( $svg = file_get_contents( $this->imageUri( $path ))) {
-			return $svg;
+		if( file_exists( $this->imagePath( $path ))) {
+			return file_get_contents( $this->imageUri( $path ));
 		}
 	}
 
