@@ -59,6 +59,20 @@ class Render
 		echo str_replace( ']]>', ']]&gt;', apply_filters( 'the_content', $content ));
 	}
 
+	public function copyright( array $args = [] )
+	{
+		extract( shortcode_atts([
+			'copyright' => sprintf( '<span>%s </span>&copy;', __( 'Copyright', 'castor' )),
+			'date' => date( 'Y' ),
+			'name' => get_bloginfo( 'name' ),
+			'separator' => '&mdash;',
+		], $args ));
+		if( $separator ) {
+			$separator .= ' ';
+		}
+		printf( '%s %s %s%s', $copyright, $date, $separator, $name );
+	}
+
 	public function featured( $args = [] )
 	{
 		$args = wp_parse_args( $args, [
