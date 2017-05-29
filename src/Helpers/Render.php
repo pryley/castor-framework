@@ -85,10 +85,13 @@ class Render
 			'url' => $args['video'],
 		]));
 		if( empty( $featuredHtml ) && $featuredImage = $this->media->getImage( $args['image'] )) {
-			$featuredHtml = sprintf( '<div class="featured-image"><img src="%s" alt="%s"></div><figcaption>%s</figcaption>',
+			$featuredCaption = $featuredImage->caption
+				? sprintf( '<figcaption>%s</figcaption>', $featuredImage->caption )
+				: '';
+			$featuredHtml = sprintf( '<div class="featured-image"><img src="%s" alt="%s"></div>%s',
 				$featuredImage->large['url'],
 				$featuredImage->alt,
-				$featuredImage->caption
+				$featuredCaption
 			);
 		}
 		if( !empty( $featuredHtml )) {
