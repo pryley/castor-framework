@@ -30,17 +30,14 @@ class Media
 
 	/**
 	 * @param string $name
-	 *
 	 * @return string|void
 	 * @throws BadMethodCallException
 	 */
 	public function __call( $name, array $args )
 	{
 		$mediaType = $this->validateMethod( $name );
+		$args = $this->validateArgs( $args, $mediaType );
 
-		if( !count( $args )) {
-			throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
-		}
 		if( str_replace( $mediaType, '', strtolower( $name ))) {
 			return $this->$mediaType->get( $args[0] )->$mediaType;
 		}
@@ -51,8 +48,7 @@ class Media
 
 	/**
 	 * @param string $name
-	 * @param mixed  $args
-	 *
+	 * @param mixed $args
 	 * @return mixed
 	 * @throws BadMethodCallException
 	 */
@@ -64,7 +60,22 @@ class Media
 
 	/**
 	 * @param string $name
-	 *
+	 * @return array
+	 * @throws BadMethodCallException
+	 */
+	protected function validateArgs( array $args, $name )
+	{
+		if( !count( $args ) && $name == 'image' ) {
+			$args[] = get_post_thumbnail_id();
+		}
+		if( count( $args )) {
+			return $args;
+		}
+		throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
+	}
+
+	/**
+	 * @param string $name
 	 * @return string|false
 	 * @throws BadMethodCallException
 	 */
