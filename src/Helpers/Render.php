@@ -95,6 +95,14 @@ class Render
 		echo $this->media->gallery( $args );
 	}
 
+	public function madeWithLove( $name )
+	{
+		printf( __( 'Made with %s by %s', 'castor' ),
+			file_get_contents( sprintf( '%simg/heart.svg', \GeminiLabs\Castor\Application::getInstance()->assets )),
+			$name
+		);
+	}
+
 	public function title( $metaKey = false, array $attributes = [] )
 	{
 		$tag = apply_filters( 'castor/render/title/tag', 'h2' );
