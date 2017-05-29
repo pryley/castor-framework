@@ -120,7 +120,7 @@
 				options
 			);
 
-			this.gallery.options.getTextForShare = this.getTextForShare;
+			this.gallery.options.getTextForShare = this.getTextForShare.bind( this );
 
 			this.gallery.listen( 'beforeResize', this.beforeResize.bind( this ));
 			this.gallery.listen( 'gettingData', this.gettingData.bind( this ));
