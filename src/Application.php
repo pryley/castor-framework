@@ -8,8 +8,11 @@ use GeminiLabs\Castor\Facade;
 
 final class Application extends Container
 {
+	public $assets;
+
 	public function __construct()
 	{
+		$this->assets = sprintf( '%s/assets/', dirname( __DIR__ ));
 		Facade::clearResolvedInstances();
 		Facade::setFacadeApplication( $this );
 		$this->registerAliases();
