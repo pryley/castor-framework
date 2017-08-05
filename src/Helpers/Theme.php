@@ -6,11 +6,13 @@ use GeminiLabs\Castor\Helpers\PostMeta;
 
 class Theme
 {
-	public $postmeta;
+	public $archiveMeta;
+	public $postMeta;
 
-	public function __construct( PostMeta $postmeta )
+	public function __construct( ArchiveMeta $archiveMeta, PostMeta $postMeta )
 	{
-		$this->postmeta = $postmeta;
+		$this->archiveMeta = $archiveMeta;
+		$this->postMeta = $postMeta;
 	}
 
 	/**
@@ -131,7 +133,7 @@ class Theme
 
 	protected function getArchiveTitle()
 	{
-		return get_the_archive_title();
+		return $this->archiveMeta->get( 'title', get_the_archive_title(), get_query_var( 'post_type' ));
 	}
 
 	protected function getHomeTitle()
@@ -143,9 +145,9 @@ class Theme
 
 	protected function getPageTitle()
 	{
-		return ($title = $this->postmeta->get( 'title' ))
-			? $title
-			: get_the_title();
+		return $this->postMeta->get( 'title', [
+			'fallback' => get_the_title(),
+		]);
 	}
 
 	protected function getSearchTitle()
