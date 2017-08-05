@@ -46,6 +46,9 @@ class SiteMeta
 		if( empty( $group )) {
 			$group = $this->getDefaultGroup();
 		}
+		if( is_array( $group )) {
+			$group = reset( $group );
+		}
 		return isset( $this->options[$group] )
 			? $this->options[$group]
 			: null;
