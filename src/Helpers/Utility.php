@@ -54,6 +54,17 @@ class Utility
 	}
 
 	/**
+	 * @param string $needle
+	 * @param string $haystack
+	 *
+	 * @return bool
+	 */
+	public function contains( $needle, $haystack )
+	{
+		strpos( $haystack, $needle ) !== false;
+	}
+
+	/**
 	 * @param string $suffix
 	 * @param string $string
 	 * @param bool   $unique
