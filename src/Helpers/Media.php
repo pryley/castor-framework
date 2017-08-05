@@ -9,11 +9,11 @@ use BadMethodCallException;
 
 /**
  * @method string      gallery( array $args )
+ * @method string|void image( int|string $attachment, string|array $size )
+ * @method string|void video( string|array $args )
  * @method \WP_Query   getGallery( array $args )
  * @method object|void getImage( int|string $attachment )
  * @method object|void getVideo( string|array $args )
- * @method string|void image( int|string $attachment, string|array $size )
- * @method string|void video( string|array $args )
  */
 class Media
 {

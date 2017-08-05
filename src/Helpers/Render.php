@@ -29,18 +29,19 @@ class Render
 		}
 	}
 
-	public function button( $postId = 0, $title = false )
+	public function button( $postId = 0, $title = false, $passthrough = false )
 	{
-		$post = get_post( $postId );
-
-		if( !$postId || !$post )return;
-		if( !$title ) {
-			$title = $post->post_title;
+		if( $passthrough ) {
+			$url = $postId;
 		}
-		printf( '<a href="%s" class="button"><span>%s</span></a>',
-			get_permalink( $post->ID ),
-			$title
-		);
+		if( !isset( $url )) {
+			$url = get_permalink( $postId );
+			if( !$title ) {
+				$title = get_the_title( $postId );
+			}
+		}
+		if( !$title || !$url )return;
+		printf( '<a href="%s" class="button"><span>%s</span></a>', $url, $title );
 	}
 
 	public function buttons( $postIds = [] )
@@ -50,12 +51,16 @@ class Render
 		}
 	}
 
-	public function content( $metaKey = false )
+	public function content( $metaKey = false, $passthrough = false )
 	{
-		$content = $metaKey
-			? $this->postmeta->get( $metaKey )
-			: get_the_content();
-
+		if( $passthrough ) {
+			$content = $metaKey;
+		}
+		if( !isset( $content )) {
+			$content = $metaKey
+				? $this->postmeta->get( $metaKey )
+				: get_the_content();
+		}
 		echo str_replace( ']]>', ']]&gt;', apply_filters( 'the_content', $content ));
 	}
 
@@ -112,12 +117,40 @@ class Render
 		echo $this->media->gallery( $args );
 	}
 
+	public function h1( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h1', wp_strip_all_tags( $string ), $attributes );
+	}
+
+	public function h2( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h2', wp_strip_all_tags( $string ), $attributes );
+	}
+
+	public function h3( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h3', wp_strip_all_tags( $string ), $attributes );
+	}
+
+	public function h4( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h4', wp_strip_all_tags( $string ), $attributes );
+	}
+
+	public function h5( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h5', wp_strip_all_tags( $string ), $attributes );
+	}
+
+	public function h6( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'h6', wp_strip_all_tags( $string ), $attributes );
+	}
+
 	public function madeWithLove( $name )
 	{
 		printf( __( 'Made with %s by %s', 'castor' ),
 			file_get_contents( sprintf( '%simg/heart.svg', \GeminiLabs\Castor\Application::getInstance()->assets )),
 			$name
 		);
+	}
+
+	public function p( $string, array $attributes = [] ) {
+		$this->utility->printTag( 'p', wp_strip_all_tags( $string ), $attributes );
 	}
 
 	public function title( $metaKey = false, array $attributes = [] )
