@@ -38,6 +38,18 @@ class Controller
 	}
 
 	/**
+	 * @return array
+	 * @filter body_class
+	 */
+	public function filterBodyClasses( array $classes )
+	{
+		if( Theme::displaySidebar() ) {
+			$classes[] = 'has-sidebar';
+		}
+		return array_keys( array_flip( $classes ));
+	}
+
+	/**
 	 * @return string
 	 * @filter login_headertitle
 	 */
@@ -153,7 +165,7 @@ class Controller
 
 		$sidebars = apply_filters( 'castor/register/sidebars', [
 			'sidebar-primary' => __( 'Primary Sidebar', 'castor' ),
-			'sidebar-footer'  => __( 'Footer Sidebar', 'castor' ),
+			'sidebar-footer'  => __( 'Footer Widgets', 'castor' ),
 		]);
 
 		foreach( $sidebars as $id => $name ) {

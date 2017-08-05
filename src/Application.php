@@ -31,6 +31,7 @@ final class Application extends Container
 		add_action( 'widgets_init',           [$controller, 'registerSidebars'] );
 
 		// Filter hooks
+		add_filter( 'body_class',             [$controller, 'filterBodyClasses'] );
 		add_filter( 'template_include',       [$controller, 'filterTemplate'] );
 		add_filter( 'login_headertitle',      [$controller, 'filterLoginTitle'] );
 		add_filter( 'login_headerurl',        [$controller, 'filterLoginUrl'] );
