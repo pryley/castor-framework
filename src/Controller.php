@@ -104,6 +104,29 @@ class Controller
 
 	/**
 	 * @return void
+	 * @action admin_enqueue_scripts
+	 */
+	public function registerAdminAssets()
+	{
+		if( file_exists( Theme::assetPath( 'css/admin.css' ))) {
+			wp_enqueue_style( 'castor/admin.css',
+				Theme::assetUri( 'css/admin.css' ),
+				apply_filters( 'castor/enqueue/admin/css/deps', [] ),
+				null
+			);
+		}
+		if( file_exists( Theme::assetPath( 'css/admin.js' ))) {
+			wp_enqueue_script( 'castor/admin.js',
+				Theme::assetUri( 'js/admin.js' ),
+				apply_filters( 'castor/enqueue/admin/js/deps', [] ),
+				null,
+				true
+			);
+		}
+	}
+
+	/**
+	 * @return void
 	 * @action wp_enqueue_scripts
 	 */
 	public function registerAssets()

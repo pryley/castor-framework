@@ -25,6 +25,7 @@ final class Application extends Container
 		// Action hooks
 		add_action( 'after_setup_theme',      [$controller, 'afterSetupTheme'], 20 );
 		add_action( 'login_head',             [$controller, 'login'] );
+		add_action( 'admin_enqueue_scripts',  [$controller, 'registerAdminAssets'] );
 		add_action( 'wp_enqueue_scripts',     [$controller, 'registerAssets'] );
 		add_action( 'customize_register',     [$controller, 'registerCustomizer'] );
 		add_action( 'customize_preview_init', [$controller, 'registerCustomizerAssets'] );
