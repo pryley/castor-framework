@@ -25,7 +25,7 @@
 			this.parseHash( this.galleries );
 			[].forEach.call( this.galleries, function( gallery, index ) {
 				gallery.setAttribute( 'data-pswp-uid', index + 1 );
-				castor._on( 'click', gallery, this.onClick.bind( this ));
+				gallery.addEventListener( 'click', this.onClick.bind( this ));
 			}.bind( this ));
 		},
 

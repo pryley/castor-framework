@@ -20,8 +20,8 @@
 
 		init: function()
 		{
-			// castor._on( 'click', this.el.querySelector( '.open-main-menu' ), this.onClick.bind( this ));
-			castor._on( 'scroll', window, this.onScroll.bind( this ));
+			// this.el.querySelector( '.open-main-menu' ).addEventListener( 'click', this.onClick.bind( this ));
+			window.addEventListener( 'scroll', this.onScroll.bind( this ));
 		},
 
 		autoHide: function()
@@ -36,18 +36,18 @@
 		{
 			// scrolling up
 			if( this.previousTop - currentTop > this.options.scrollDelta ) {
-				castor._removeClass( this.el, 'is-hidden' );
+				this.el.classList.remove( 'is-hidden' );
 			}
 			// scrolling down
 			else if( currentTop - this.previousTop > this.options.scrollDelta && currentTop > this.options.scrollOffset ) {
-				castor._addClass( this.el, 'is-hidden' );
+				this.el.classList.add( 'is-hidden' );
 			}
 		},
 
 		// onClick: function( ev )
 		// {
 		// 	ev.preventDefault();
-		// 	castor._toggleClass( this.el, 'nav-open' );
+		// 	this.el.classlist.toggle( 'nav-open' );
 		// },
 
 		onScroll: function( ev )

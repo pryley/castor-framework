@@ -28,7 +28,7 @@
 			var fieldEl = el.closest( '.'+this.options.fieldClass );
 			if( fieldEl === null )return;
 			castor._removeEl( '.'+this.options.fieldErrorsClass, fieldEl );
-			castor._removeClass( fieldEl, this.options.fieldHasErrorClass );
+			fieldEl.classList.remove( this.options.fieldHasErrorClass );
 		},
 
 		clearFormErrors: function()
@@ -41,8 +41,8 @@
 		init: function()
 		{
 			this.button = this.el.querySelector( this.options.buttonSelector );
-			castor._on( 'change', this.el, this.onChange.bind( this ));
-			castor._on( 'submit', this.el, this.onSubmit.bind( this ));
+			this.el.addEventListener( 'change', this.onChange.bind( this ));
+			this.el.addEventListener( 'submit', this.onSubmit.bind( this ));
 		},
 
 		onChange: function( ev )
@@ -133,7 +133,7 @@
 			for( var error in errors ) {
 				if( !errors.hasOwnProperty( error ))continue;
 				fieldEl  = this.el.querySelector( '[name="' + error + '"]' ).closest( '.'+this.options.fieldClass );
-				castor._addClass( fieldEl, this.options.fieldHasErrorClass );
+				fieldEl.classList.add( this.options.fieldHasErrorClass );
 				errorsEl = fieldEl.querySelector( '.'+this.options.fieldErrorsClass );
 				if( errorsEl === null ) {
 					errorsEl = castor._appendTo( fieldEl, 'span', {
@@ -155,7 +155,7 @@
 					'class': this.options.formMessageClass,
 				});
 			}
-			castor[!!response.errors ? '_addClass' : '_removeClass']( messageEl, this.options.formHasErrorsClass );
+			messageEl.classList[!!response.errors ? 'add' : 'remove']( this.options.formHasErrorsClass );
 			messageEl.innerHTML = response.message;
 		},
 

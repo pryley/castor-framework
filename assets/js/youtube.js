@@ -26,7 +26,7 @@
 				this.injectScript();
 			}
 			this.onYouTubePlayerAPIReady();
-			castor._addClass( this.video.querySelector( this.options.poster ), 'hide' );
+			this.video.querySelector( this.options.poster ).classList.add( 'hide' );
 		},
 
 		injectScript: function()
@@ -43,7 +43,7 @@
 			var spinner = this.video.querySelector( this.options.spinner );
 			this.player.playVideo();
 			setTimeout( function() {
-				castor._addClass( spinner, 'hide' );
+				spinner.classList.add( 'hide' );
 			}, 1000 );
 		},
 

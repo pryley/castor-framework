@@ -4,38 +4,20 @@ AnimationFrame.shim();
 
 window.castor =
 {
-	_hasClass: function( el, className ) {
-		if( el.classList ) return el.classList.contains( className );
-		else return new RegExp( '\\b' + className + '\\b' ).test( el.className );
-	},
-	_addClass: function( el, className ) {
+	_addClasses: function( el, className ) {
 		className.split( ' ' ).forEach( function( str ) {
-			if( el.classList ) el.classList.add( str );
-			else if( !this._hasClass( el, str )) el.className += ' ' + str;
+			el.classList.add( str );
 		});
 		return el;
 	},
-	_removeClass: function( el, className ) {
+	_removeClasses: function( el, className ) {
 		className.split( ' ' ).forEach( function( str ) {
-			if( el.classList ) el.classList.remove( str );
-			else el.className = el.className.replace( new RegExp( '\\b' + str + '\\b', 'g' ), '' );
+			el.classList.remove( str );
 		});
 		return el;
-	},
-	_toggleClass: function( el, className ) {
-		if( !this._hasClass( el, className )) this._addClass( el, className );
-		else this._removeClass( el, className );
 	},
 	_isString: function( str ) {
 		return Object.prototype.toString.call( str ) === "[object String]";
-	},
-	_on: function( type, el, handler ) {
-		if( !el )return;
-		el.addEventListener( type, handler, false );
-	},
-	_off: function( type, el, handler ) {
-		if( !el )return;
-		el.removeEventListener( type, handler, false );
 	},
 	_cssEventEnd: function( eventType ) {
 		var el = document.createElement('fakeelement');
@@ -88,25 +70,3 @@ window.castor =
 		return result;
 	},
 };
-
-(function( ElementPrototype )
-{
-	// matches polyfill
-	ElementPrototype.matches = ElementPrototype.matches ||
-	function( selector ) {
-		var matches = ( this.document || this.ownerDocument ).querySelectorAll( selector );
-		var i = matches.length;
-		while( --i >= 0 && matches.item( i ) !== this );
-		return i > -1;
-	};
-
-	// closest polyfill
-	ElementPrototype.closest = ElementPrototype.closest ||
-	function( selector ) {
-		var el = this;
-		while( el.matches && !el.matches( selector )) {
-			el = el.parentNode;
-		}
-		return el.matches ? el : null;
-	};
-})( Element.prototype );

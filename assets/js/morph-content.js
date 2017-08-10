@@ -35,13 +35,13 @@
 
 			this.transitionEndListener = this.transitionEnd.bind( this );
 
-			castor._addClass( this.el, 'can-morph' );
+			this.el.classList.add( 'can-morph' );
 
-			castor._on( "click", this.openEl, this.toggle.bind( this ));
-			castor._on( "keyup", document, this.keypress.bind( this ));
+			this.openEl.addEventListener( 'click', this.toggle.bind( this ));
+			document.addEventListener( 'keyup', this.keypress.bind( this ));
 
 			if( this.closeEl ) {
-				castor._on( "click", this.closeEl, this.toggle.bind( this ));
+				this.closeEl.addEventListener( 'click', this.toggle.bind( this ));
 			}
 
 			return this;
@@ -71,16 +71,16 @@
 
 			this.isAnimating = true;
 
-			castor._on( castor._getTransitionEvent(), this.contentEl, this.transitionEndListener );
+			this.contentEl.addEventListener( castor._getTransitionEvent(), this.transitionEndListener );
 
-			castor._addClass( this.el, 'active' );
+			this.el.classList.add( 'active' );
 
 			this.expanded ? this.close() : this.open();
 		},
 
 		open: function()
 		{
-			castor._addClass( document.body, 'opened-morph' );
+			document.body.classList.add( 'opened-morph' );
 
 			this.callback( 'onBeforeOpen' );
 
@@ -93,11 +93,11 @@
 
 			this.setPosition( this.getCoordinates());
 
-			castor._removeClass( document.body, 'opened-morph' );
-			castor._removeClass( this.el, 'open' );
+			document.body.classList.remove( 'opened-morph' );
+			this.el.classList.remove( 'open' );
 
 			(new AnimationFrame()).request( function() {
-				castor._removeClass( this.contentEl, 'no-transition' );
+				this.contentEl.classList.remove( 'no-transition' );
 				this.setPosition( 0 );
 			}.bind( this ));
 		},
@@ -110,18 +110,18 @@
 
 			this.isAnimating = false;
 
-			castor._off( castor._getTransitionEvent(), this.contentEl, this.transitionEndListener );
+			this.contentEl.removeEventListener( castor._getTransitionEvent(), this.transitionEndListener );
 
 			if( !this.expanded ) {
-				castor._addClass( this.contentEl, 'no-transition' );
+				this.contentEl.classList.add( 'no-transition' );
 
 				(new AnimationFrame()).request( function() {
-					castor._addClass( this.el, 'open' );
-					castor._removeClass( this.el, 'active' );
+					this.el.classList.add( 'open' );
+					this.el.classList.remove( 'active' );
 				}.bind( this ));
 			}
 			else {
-				castor._removeClass( this.el, 'active' );
+				this.el.classList.remove( 'active' );
 			}
 
 			this.callback( this.expanded ? 'onAfterClose' : 'onAfterOpen' );
