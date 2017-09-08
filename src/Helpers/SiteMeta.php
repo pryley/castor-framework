@@ -90,9 +90,9 @@ class SiteMeta
 	 * @param mixed $fallback
 	 * @return mixed
 	 */
-	protected function getValue( array $group, $key, $fallback )
+	protected function getValue( array $group, $key = '', $fallback )
 	{
-		if( !array_key_exists( $key, $group )) {
+		if( empty( $key ) || !array_key_exists( $key, $group )) {
 			return $fallback;
 		}
 		return empty( $group[$key] ) && !is_null( $fallback )
