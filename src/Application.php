@@ -24,6 +24,8 @@ final class Application extends Container
 
 		// Action hooks
 		add_action( 'after_setup_theme',      [$controller, 'afterSetupTheme'], 20 );
+		add_action( 'login_head',             [$controller, 'loadAdminFavicon'] );
+		add_action( 'admin_head',             [$controller, 'loadAdminFavicon'] );
 		add_action( 'login_head',             [$controller, 'login'] );
 		add_action( 'admin_enqueue_scripts',  [$controller, 'registerAdminAssets'] );
 		add_action( 'wp_enqueue_scripts',     [$controller, 'registerAssets'] );

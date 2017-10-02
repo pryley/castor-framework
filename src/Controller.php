@@ -93,6 +93,18 @@ class Controller
 
 	/**
 	 * @return void
+	 * @action admin_head
+	 * @action login_head
+	 */
+	public function loadAdminFavicon()
+	{
+		if( file_exists( Theme::assetPath( 'favicon/favicon-admin.ico' ))) {
+			printf( '<link rel="shortcut icon" href="%s">', Theme::assetUri( 'favicon/favicon-admin.ico' ));
+		}
+	}
+
+	/**
+	 * @return void
 	 * @action login_head
 	 */
 	public function login()
