@@ -24,7 +24,7 @@ class Development
 
 	public function className()
 	{
-		return $this->isDev() && in_array( DEV, ['css', true] )
+		return $this->isDev() && in_array( DEV, ['css', true], true )
 			? 'dev'
 			: '';
 	}
