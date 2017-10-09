@@ -122,7 +122,7 @@ class Theme
 	public function svg( $path = null )
 	{
 		if( file_exists( $this->imagePath( $path ))) {
-			return file_get_contents( $this->imageUri( $path ));
+			return file_get_contents( $this->imagePath( $path ));
 		}
 	}
 
