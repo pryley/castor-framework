@@ -52,7 +52,8 @@ body.login.interim-login {
 	margin: 0 0 16px;;
 	overflow: inherit;
 
-	label:not([for="rememberme"]) {
+	label[for="user_login"],
+	label[for="user_pass"] {
 		position: relative;
 		display: block;
 		height: 36px;
