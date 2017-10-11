@@ -72,16 +72,13 @@ class Gallery
 		if( !$image )return;
 		return sprintf(
 			'<figure class="gallery-image" data-w="%s" data-h="%s" data-ps=\'%s\' itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">' .
-				'%s<figcaption itemprop="caption description">' .
-					'%s <span itemprop="copyrightHolder">%s</span>' .
-				'</figcaption>' .
+				'%s%s' .
 			'</figure>',
 			$image->thumbnail['width'],
 			$image->thumbnail['height'],
 			$this->getPhotoswipeData( $image ),
 			$this->renderImageTag( $image ),
-			$image->caption,
-			$image->copyright
+			$this->renderImageCaption( $image )
 		);
 	}
 
@@ -266,7 +263,19 @@ class Gallery
 
 	/**
 	 * @param object $image
-	 *
+	 * @return null|string
+	 */
+	protected function renderImageCaption( $image )
+	{
+		if( !empty( $image->copyright )) {
+			$image->caption .= sprintf( ' <span itemprop="copyrightHolder">%s</span>', $image->copyright );
+		}
+		if( empty( $image->caption ))return;
+		return sprintf( '<figcaption itemprop="caption description">%s</figcaption>', $image->caption );
+	}
+
+	/**
+	 * @param object $image
 	 * @return null|string
 	 */
 	protected function renderImageTag( $image )
