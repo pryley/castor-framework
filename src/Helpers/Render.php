@@ -66,12 +66,13 @@ class Render
 
 	public function copyright( array $args = [] )
 	{
-		extract( shortcode_atts([
+		$args = shortcode_atts([
 			'copyright' => sprintf( '<span>%s </span>&copy;', __( 'Copyright', 'castor' )),
 			'date' => date( 'Y' ),
 			'name' => get_bloginfo( 'name' ),
 			'separator' => '&mdash;',
-		], $args ));
+		], $args );
+		extract( $args );
 		if( $separator ) {
 			$separator .= ' ';
 		}
