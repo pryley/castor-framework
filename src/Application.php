@@ -16,6 +16,7 @@ final class Application extends Container
 		Facade::clearResolvedInstances();
 		Facade::setFacadeApplication( $this );
 		$this->registerAliases();
+		$this->registerBindings();
 	}
 
 	public function init()
@@ -51,6 +52,7 @@ final class Application extends Container
 	{
 		$aliases = [
 			'Development' => Facades\Development::class,
+			'Log'         => Facades\Log::class,
 			'Media'       => Facades\Media::class,
 			'PostMeta'    => Facades\PostMeta::class,
 			'Render'      => Facades\Render::class,
@@ -59,10 +61,18 @@ final class Application extends Container
 			'Theme'       => Facades\Theme::class,
 			'Utility'     => Facades\Utility::class,
 		];
-
 		$aliases = apply_filters( 'castor/register/aliases', $aliases );
-
 		AliasLoader::getInstance( $aliases )->register();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function registerBindings()
+	{
+		$this->bind( Helpers\Log::class, function() {
+			return new Helpers\Log( trailingslashit( get_stylesheet_directory() ).'castor-debug.log' );
+		});
 	}
 
 	/**

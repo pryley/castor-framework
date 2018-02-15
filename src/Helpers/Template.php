@@ -3,6 +3,7 @@
 namespace GeminiLabs\Castor\Helpers;
 
 use GeminiLabs\Castor\Facades\Development;
+use GeminiLabs\Castor\Facades\Log;
 use GeminiLabs\Castor\Facades\Utility;
 
 class Template
@@ -21,17 +22,21 @@ class Template
 	public function get( $slug, $name = '' )
 	{
 		$template = Utility::startWith( 'templates/', $slug );
-		$templates = ["{$template}.php"];
+		$templates = ["$template.php"];
 		if( !empty( $name )) {
 			$fileName = basename( $template );
 			$filePath = Utility::trimRight( $template, $fileName );
 			array_unshift( $templates, sprintf( '%s/%s.php', $filePath . $name, $fileName ));
 		}
-		$templates = array_unique( apply_filters( "castor/templates/{$slug}", $templates, $name ));
+		$templates = array_unique( apply_filters( "castor/templates/$slug", $templates, $name ));
 		$template = locate_template( $templates );
-		return empty( $template ) && file_exists( "{$slug}.php" )
-			? "{$slug}.php"
-			: $template;
+		if( empty( $template )) {
+			if( file_exists( "$slug.php" )) {
+				return "$slug.php";
+			}
+			Log::debug( "$slug not found." );
+		}
+		return $template;
 	}
 
 	/**
