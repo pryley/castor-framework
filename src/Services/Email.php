@@ -3,6 +3,7 @@
 namespace GeminiLabs\Castor\Services;
 
 use GeminiLabs\Castor\Helpers\Template;
+use PHPMailer;
 
 class Email
 {
@@ -167,8 +168,8 @@ class Email
 	protected function getDefaultFrom()
 	{
 		return sprintf( '%s <%s>',
-			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
-			get_option( 'admin_email' )
+			wp_specialchars_decode( (string) get_option( 'blogname' ), ENT_QUOTES ),
+			(string) get_option( 'admin_email' )
 		);
 	}
 

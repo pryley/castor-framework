@@ -2,9 +2,9 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
-use GeminiLabs\Castor\Facades\Development;
-use GeminiLabs\Castor\Facades\Log;
-use GeminiLabs\Castor\Facades\Utility;
+use GeminiLabs\Castor\Facades\Development as DevelopmentFacade;
+use GeminiLabs\Castor\Facades\Log as LogFacade;
+use GeminiLabs\Castor\Facades\Utility as UtilityFacade;
 
 class Template
 {
@@ -21,12 +21,12 @@ class Template
 	 */
 	public function get( $slug, $name = '' )
 	{
-		$template = Utility::startWith( 'templates/', $slug );
+		$template = UtilityFacade::startWith( 'templates/', $slug );
 		$templates = ["$template.php"];
 		if( !empty( $name )) {
 			$fileName = basename( $template );
-			$filePath = Utility::trimRight( $template, $fileName );
-			array_unshift( $templates, sprintf( '%s/%s.php', $filePath . $name, $fileName ));
+			$filePath = UtilityFacade::trimRight( $template, $fileName );
+			array_unshift( $templates, sprintf( '%s/%s.php', $filePath.$name, $fileName ));
 		}
 		$templates = array_unique( apply_filters( "castor/templates/$slug", $templates, $name ));
 		$template = locate_template( $templates );
@@ -34,7 +34,7 @@ class Template
 			if( file_exists( "$slug.php" )) {
 				return "$slug.php";
 			}
-			Log::debug( "$slug not found." );
+			LogFacade::debug( "$slug not found." );
 		}
 		return $template;
 	}
@@ -48,7 +48,7 @@ class Template
 	public function load( $slug, $name = '' )
 	{
 		if( !empty(( $template = $this->get( $slug, $name )))) {
-			Development::storeTemplatePath( $template );
+			DevelopmentFacade::storeTemplatePath( $template );
 			load_template( $template, false );
 		}
 	}
@@ -68,7 +68,7 @@ class Template
 	 */
 	public function setLayout( $template )
 	{
-		$this->template = Utility::trimRight( $template, '.php' );
+		$this->template = UtilityFacade::trimRight( $template, '.php' );
 		return $this->get( apply_filters( 'castor/templates/layout', 'layouts/default' ));
 	}
 }

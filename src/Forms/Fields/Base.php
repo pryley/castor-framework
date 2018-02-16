@@ -118,7 +118,7 @@ abstract class Base
 	/**
 	 * Implode the field attributes
 	 *
-	 * @return array
+	 * @return string
 	 */
 	protected function implodeAttributes( $defaults = [] )
 	{
@@ -165,13 +165,13 @@ abstract class Base
 	 *
 	 * @param bool|string $implode
 	 *
-	 * @return array
+	 * @return array|string
 	 */
 	protected function normalize( array $defaults = [], $implode = false )
 	{
 		$args = $this->mergeAttributesWith( $defaults );
 
-		$normalize = new Normalize;
+		$normalize = new Normalizer;
 
 		return ( $this->element && method_exists( $normalize, $this->element ))
 			? $normalize->{$this->element}( $args, $implode )

@@ -28,7 +28,7 @@ class Gallery
 	}
 
 	/**
-	 * @return WP_Query
+	 * @return static
 	 */
 	public function get( array $args = [] )
 	{
@@ -43,7 +43,6 @@ class Gallery
 			'post_status'    => 'inherit',
 			'posts_per_page' => $this->args['images_per_page'],
 		]);
-
 		return $this;
 	}
 

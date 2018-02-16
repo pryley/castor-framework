@@ -2,7 +2,7 @@
 
 namespace GeminiLabs\Castor\Helpers;
 
-use GeminiLabs\Castor\Facades\Development;
+use GeminiLabs\Castor\Facades\Development as DevelopmentFacade;
 use ReflectionClass;
 
 class Log
@@ -179,7 +179,7 @@ class Log
 	protected function log( $level, $message, array $context = [] )
 	{
 		if( !in_array( $level, (new ReflectionClass( __NAMESPACE__.'\Log' ))->getConstants(), true )
-			|| !Development::isDev()
+			|| !DevelopmentFacade::isDev()
 		)return;
 		$date = get_date_from_gmt( gmdate('Y-m-d H:i:s') );
 		$level = strtoupper( $level );

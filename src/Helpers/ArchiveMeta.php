@@ -19,7 +19,8 @@ class ArchiveMeta extends SiteMeta
 
 	public function __construct()
 	{
-		$this->options = get_option( apply_filters( 'pollux/archives/id', 'pollux_archives' ), [] );
+		$option = apply_filters( 'pollux/archives/id', 'pollux_archives' );
+		$this->options = (array) get_option( $option, [] );
 	}
 
 	/**
@@ -38,6 +39,6 @@ class ArchiveMeta extends SiteMeta
 	 */
 	protected function getDefaultGroup()
 	{
-		return get_post_type();
+		return (string) get_post_type();
 	}
 }

@@ -138,7 +138,7 @@ class Theme
 
 	protected function getHomeTitle()
 	{
-		return ( $home = get_option( 'page_for_posts', true ))
+		return ( $home = (string) get_option( 'page_for_posts' ))
 			? get_the_title( $home )
 			: __( 'Latest Posts', 'castor' );
 	}

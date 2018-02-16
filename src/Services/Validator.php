@@ -414,10 +414,10 @@ class Validator
 	 */
 	protected function translator( $key, $rule, $attribute, array $parameters )
 	{
-		$strings = glsr_resolve( 'Strings' )->validation();
+		$strings = [];//glsr_resolve( 'Strings' )->validation();
 
-		$message = isset( $strings[ $key ] )
-			? $strings[ $key ]
+		$message = isset( $strings[$key] )
+			? $strings[$key]
 			: false;
 
 		if( !$message )return;

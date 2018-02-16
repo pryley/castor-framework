@@ -34,7 +34,7 @@ class Utility
 	 */
 	public function buildClassName( $name, $path = '' )
 	{
-		$className = array_map( 'ucfirst', array_map( 'strtolower', preg_split( '/[-_]/', $name )));
+		$className = array_map( 'ucfirst', array_map( 'strtolower', (array) preg_split( '/[-_]/', $name )));
 		$className = implode( '', $className );
 
 		return !empty( $path )
@@ -82,7 +82,7 @@ class Utility
 	 * @param string $needle
 	 * @param string $haystack
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public function endsWith( $needle, $haystack )
 	{
@@ -127,7 +127,7 @@ class Utility
 	 * @param string $needle
 	 * @param string $haystack
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public function startsWith( $needle, $haystack )
 	{
