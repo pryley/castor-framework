@@ -24,9 +24,7 @@ class Development
 
 	public function className()
 	{
-		return $this->isDev() && in_array( DEV, ['css', true], true )
-			? 'dev'
-			: '';
+		return $this->isDev() ? 'dev' : '';
 	}
 
 	public function debug()
@@ -53,12 +51,11 @@ class Development
 
 	public function printTemplatePaths()
 	{
-		if( $this->isDev() && ( DEV == 'templates' || DEV === true )) {
-			$templates = array_map( function( $key, $value ) {
-				return sprintf( '[%s] => %s', $key, $value );
-			}, array_keys( $this->templatePaths ), $this->templatePaths );
-			$this->printF( implode( "\n", $templates ));
-		}
+		if( !$this->isDev() )return;
+		$templates = array_map( function( $key, $value ) {
+			return sprintf( '[%s] => %s', $key, $value );
+		}, array_keys( $this->templatePaths ), $this->templatePaths );
+		$this->printF( implode( "\n", $templates ));
 	}
 
 	public function storeTemplatePath( $template )
