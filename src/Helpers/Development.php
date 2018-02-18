@@ -51,7 +51,6 @@ class Development
 
 	public function printTemplatePaths()
 	{
-		if( !$this->isDev() )return;
 		$templates = array_map( function( $key, $value ) {
 			return sprintf( '[%s] => %s', $key, $value );
 		}, array_keys( $this->templatePaths ), $this->templatePaths );
