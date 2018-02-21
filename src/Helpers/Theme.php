@@ -22,7 +22,7 @@ class Theme
 	 */
 	public function assetPath( $asset )
 	{
-		return $this->paths( 'dir.stylesheet' ) . 'assets/' . $asset;
+		return $this->paths( 'dir.stylesheet' ).'assets/'.$asset;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class Theme
 	 */
 	public function assetUri( $asset )
 	{
-		return $this->paths( 'uri.stylesheet' ) . 'assets/' . $asset;
+		return $this->paths( 'uri.stylesheet' ).'assets/'.$asset;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Theme
 	 */
 	public function imagePath( $asset )
 	{
-		return $this->paths( 'dir.stylesheet' ) . 'assets/img/' . $asset;
+		return $this->assetPath( castor_app()->imgDir.$asset );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Theme
 	 */
 	public function imageUri( $asset )
 	{
-		return $this->paths( 'uri.stylesheet' ) . 'assets/img/' . $asset;
+		return $this->assetUri( castor_app()->imgDir.$asset );
 	}
 
 	public function pageTitle()

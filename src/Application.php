@@ -9,6 +9,9 @@ use GeminiLabs\Castor\Facade;
 final class Application extends Container
 {
 	public $assets;
+	public $cssDir;
+	public $imgDir;
+	public $jsDir;
 
 	public function __construct()
 	{

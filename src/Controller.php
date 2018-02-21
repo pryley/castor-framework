@@ -16,7 +16,11 @@ class Controller
 	 */
 	public function afterSetupTheme()
 	{
-		add_editor_style( Theme::assetUri( 'css/editor.css' ));
+		castor_app()->cssDir = trailingslashit( (string) apply_filters( 'castor/assets/styles/dir', 'css' ));
+		castor_app()->imgDir = trailingslashit( (string) apply_filters( 'castor/assets/images/dir', 'img' ));
+		castor_app()->jsDir = trailingslashit( (string) apply_filters( 'castor/assets/scripts/dir', 'js' ));
+
+		add_editor_style( Theme::assetUri( castor_app()->cssDir.'editor.css' ));
 		add_theme_support( 'customize-selective-refresh-widgets' );
 		add_theme_support( 'html5', ['caption', 'comment-form', 'comment-list', 'gallery', 'search-form'] );
 		add_theme_support( 'post-thumbnails' );
@@ -109,8 +113,8 @@ class Controller
 	 */
 	public function login()
 	{
-		if( file_exists( Theme::assetPath( 'css/login.css' ))) {
-			printf( '<link rel="stylesheet" href="%s">', Theme::assetUri( 'css/login.css' ));
+		if( file_exists( Theme::assetPath( castor_app()->cssDir.'login.css' ))) {
+			printf( '<link rel="stylesheet" href="%s">', Theme::assetUri( castor_app()->cssDir.'login.css' ));
 		}
 	}
 
@@ -120,16 +124,16 @@ class Controller
 	 */
 	public function registerAdminAssets()
 	{
-		if( file_exists( Theme::assetPath( 'css/admin.css' ))) {
+		if( file_exists( Theme::assetPath( castor_app()->cssDir.'admin.css' ))) {
 			wp_enqueue_style( 'castor/admin.css',
-				Theme::assetUri( 'css/admin.css' ),
+				Theme::assetUri( castor_app()->cssDir.'admin.css' ),
 				apply_filters( 'castor/enqueue/admin/css/deps', [] ),
 				null
 			);
 		}
-		if( file_exists( Theme::assetPath( 'css/admin.js' ))) {
+		if( file_exists( Theme::assetPath( castor_app()->jsDir.'admin.js' ))) {
 			wp_enqueue_script( 'castor/admin.js',
-				Theme::assetUri( 'js/admin.js' ),
+				Theme::assetUri( castor_app()->jsDir.'admin.js' ),
 				apply_filters( 'castor/enqueue/admin/js/deps', [] ),
 				null,
 				true
@@ -144,12 +148,12 @@ class Controller
 	public function registerAssets()
 	{
 		wp_register_style( 'castor/main.css',
-			Theme::assetUri( 'css/main.css' ),
+			Theme::assetUri( castor_app()->cssDir.'main.css' ),
 			apply_filters( 'castor/enqueue/css/deps', [] ),
 			null
 		);
 		wp_register_style( 'castor/main.js',
-			Theme::assetUri( 'js/main.js' ),
+			Theme::assetUri( castor_app()->jsDir.'main.js' ),
 			apply_filters( 'castor/enqueue/js/deps', [] ),
 			null,
 			true
@@ -185,7 +189,7 @@ class Controller
 	 */
 	public function registerCustomizerAssets()
 	{
-		wp_enqueue_script( 'castor/customizer.js', Theme::assetUri( 'js/customizer.js' ), ['customize-preview'], null, true );
+		wp_enqueue_script( 'castor/customizer.js', Theme::assetUri( castor_app()->jsDir.'customizer.js' ), ['customize-preview'], null, true );
 	}
 
 	/**
