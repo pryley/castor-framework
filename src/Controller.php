@@ -143,12 +143,12 @@ class Controller
 	 */
 	public function registerAssets()
 	{
-		wp_enqueue_style( 'castor/main.css',
+		wp_register_style( 'castor/main.css',
 			Theme::assetUri( 'css/main.css' ),
 			apply_filters( 'castor/enqueue/css/deps', [] ),
 			null
 		);
-		wp_enqueue_script( 'castor/main.js',
+		wp_register_style( 'castor/main.js',
 			Theme::assetUri( 'js/main.js' ),
 			apply_filters( 'castor/enqueue/js/deps', [] ),
 			null,
@@ -159,6 +159,9 @@ class Controller
 				'ajax' => admin_url( 'admin-ajax.php' ),
 			])
 		);
+		do_action( 'castor/register/assets' );
+		wp_enqueue_style( 'castor/main.css' );
+		wp_enqueue_script( 'castor/main.js' );
 	}
 
 	/**
