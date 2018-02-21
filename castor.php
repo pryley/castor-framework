@@ -22,4 +22,10 @@ if( is_customize_preview() && filter_input( INPUT_GET, 'theme' )) {
 
 require_once( ABSPATH.'/'.WPINC.'/class-oembed.php' );
 
+if( !function_exists( 'castor_app' )) {
+	function castor_app() {
+		return \GeminiLabs\Castor\Application::getInstance();
+	}
+}
+
 \GeminiLabs\Castor\Application::getInstance()->init();
