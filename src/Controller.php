@@ -152,7 +152,7 @@ class Controller
 			apply_filters( 'castor/enqueue/css/deps', [] ),
 			null
 		);
-		wp_register_style( 'castor/main.js',
+		wp_register_script( 'castor/main.js',
 			Theme::assetUri( castor_app()->jsDir.'main.js' ),
 			apply_filters( 'castor/enqueue/js/deps', [] ),
 			null,

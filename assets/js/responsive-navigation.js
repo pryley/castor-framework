@@ -13,15 +13,14 @@
 	Plugin.prototype = {
 
 		defaults: {
-			autoHide: true,
-			headerSelector: null,
+			autohideSelector: null, // enables autohide
 			interval: 60, // Math.floor(1000/16.7)
-			isHiddenClass: 'is-hidden',
-			isOpenClass: 'is-open',
+			isHiddenClass: 'menu-is-hidden',
+			isOpenClass: 'menu-is-open',
 			minWidth: 768,
 			scrollDelta: 10,
 			scrollOffset: 150,
-			toggleSelector: '.toggle-menu',
+			toggleSelector: '.menu-toggle',
 		},
 
 		/** @return void */
@@ -36,26 +35,26 @@
 		checkNavigation: function( currentTop ) {
 			// scrolling up
 			if( this.previousTop - currentTop > this.options.scrollDelta ) {
-				this.el.classList.remove( this.options.isHiddenClass );
+				this.bodyEl.classList.remove( this.options.isHiddenClass );
 			}
 			// scrolling down
 			else if( currentTop - this.previousTop > this.options.scrollDelta && currentTop > this.options.scrollOffset ) {
-				this.el.classList.add( this.options.isHiddenClass );
+				this.bodyEl.classList.add( this.options.isHiddenClass );
 			}
 		},
 
 		/** @return void */
 		fixScrollStutterOnIos: function() {
 			if( typeof window.orientation === 'undefined' )return;
-			this.headerEl.style.height = '';
-			this.headerEl.style.height = this.headerEl.clientHeight + 'px';
+			this.autohideEl.style.height = '';
+			this.autohideEl.style.height = this.autohideEl.clientHeight + 'px';
 		},
 
 		/** @return void */
 		init: function() {
 			this.aF = new AnimationFrame( this.options.interval );
+			this.autohideEl = document.querySelector( this.options.autohideSelector );
 			this.bodyEl = document.querySelector( 'body' );
-			this.headerEl = document.querySelector( this.options.headerSelector );
 			this.isAnimating = false;
 			this.isScrolling = false;
 			this.toggleEls = document.querySelectorAll( this.options.toggleSelector );
@@ -68,13 +67,11 @@
 			[].forEach.call( this.toggleEls, function( el ) {
 				el.addEventListener( 'click', this.onToggle.bind( this ));
 				el.addEventListener( 'touchend', this.onToggle.bind( this ));
-			});
+			}.bind( this ));
 			window.addEventListener( 'resize', this.onResize.bind( this ));
-			if( this.options.autoHide ) {
-				window.addEventListener( 'scroll', this.onScroll.bind( this ));
-			}
-			if( this.headerEl ) {
+			if( this.autoHideEl ) {
 				this.fixScrollStutterOnIos();
+				window.addEventListener( 'scroll', this.onScroll.bind( this ));
 				window.addEventListener( 'orientationchange', this.fixScrollStutterOnIos.bind( this ));
 			}
 		},
