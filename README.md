@@ -11,3 +11,5 @@ Minimum theme requirements:
 
 * PHP 5.6
 * WordPress 4.7.0
+
+View commit log for changes.
