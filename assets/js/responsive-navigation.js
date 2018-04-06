@@ -18,6 +18,9 @@
 			isHiddenClass: 'menu-is-hidden',
 			isOpenClass: 'menu-is-open',
 			minWidth: 768,
+			onResizeEvent: null,
+			onScrollEvent: null,
+			onToggleEvent: null,
 			scrollDelta: 10,
 			scrollOffset: 150,
 			toggleSelector: '.menu-toggle',
@@ -81,6 +84,7 @@
 			this.aF.request( function() {
 				if( window.outerWidth < this.options.minWidth || !this.bodyEl.classList.contains( this.options.isOpenClass ))return;
 				this.bodyEl.classList.remove( this.options.isOpenClass );
+				this.trigger( 'onResizeEvent' );
 			}.bind( this ));
 		},
 
@@ -91,6 +95,7 @@
 				if( !this.isScrolling ) {
 					this.isScrolling = true;
 					this.autoHide();
+					this.trigger( 'onScrollEvent' );
 				}
 			}.bind( this ));
 		},
@@ -102,6 +107,7 @@
 				this.isAnimating = true;
 			}
 			this.bodyEl.classList.toggle( this.options.isOpenClass );
+			this.trigger( 'onToggleEvent' );
 			if( this.isAnimating )return;
 			this.el.addEventListener( this.transitionEnd, this.onToggleEnd.bind( this ));
 		},
@@ -110,6 +116,13 @@
 		onToggleEnd: function() {
 			this.isAnimating = false;
 			this.el.removeEventListener( this.transitionEnd, this.onToggleEnd.bind( this ));
+		},
+
+		/** @return void */
+		trigger: function( callback ) {
+			if( typeof this.options[callback] === 'function' ) {
+				this.options[callback].call( this );
+			}
 		},
 	};
 
