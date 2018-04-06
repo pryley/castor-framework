@@ -53,6 +53,7 @@ body.login.interim-login {
 	overflow: inherit;
 
 	label[for="user_login"],
+	label[for="user_email"],
 	label[for="user_pass"] {
 		position: relative;
 		display: block;
