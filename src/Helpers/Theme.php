@@ -140,7 +140,7 @@ class Theme
 	{
 		return ( $home = (string) get_option( 'page_for_posts' ))
 			? get_the_title( $home )
-			: __( 'Latest Posts', 'castor' );
+			: get_the_archive_title();
 	}
 
 	protected function getPageTitle()
