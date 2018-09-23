@@ -68,6 +68,7 @@ class Template
 	 */
 	public function setLayout( $template )
 	{
+		$template = str_replace( get_stylesheet_directory().'/templates/', '', $template );
 		$this->template = UtilityFacade::trimRight( $template, '.php' );
 		return $this->get( apply_filters( 'castor/templates/layout', 'layouts/default' ));
 	}
