@@ -74,10 +74,11 @@ class Image
 		if( is_array( $fallback ) && count( array_diff( $image, $fallback )) < 2 ) {
 			$image = $fallback;
 		}
+		$image = array_pad( $image, 3, '' );
 		return [
-			'url'    => $image[0],
-			'width'  => $image[1],
-			'height' => $image[2],
+			'url'    => array_shift( $image ),
+			'width'  => array_shift( $image ),
+			'height' => array_shift( $image ),
 		];
 	}
 }
