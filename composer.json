@@ -1,8 +1,8 @@
 {
-  "name": "geminilabs/castor-framework",
+  "name": "pryley/castor-framework",
   "license": "MIT",
   "description": "Framework for Dioscuri's Castor theme.",
-  "homepage": "https://github.com/geminilabs/castor-framework",
+  "homepage": "https://github.com/pryley/castor-framework",
   "keywords": ["wordpress", "dioscuri", "castor", "framework"],
   "authors": [
     {
@@ -11,8 +11,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/geminilabs/castor-framework/issues",
-    "source": "https://github.com/geminilabs/castor-framework"
+    "issues": "https://github.com/pryley/castor-framework/issues",
+    "source": "https://github.com/pryley/castor-framework"
   },
   "archive": {
     "exclude": []
