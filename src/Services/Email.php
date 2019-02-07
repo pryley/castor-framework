@@ -125,8 +125,7 @@ class Email
 	 */
 	protected function buildHtmlMessage( array $email )
 	{
-		$body = $this->renderTemplate( 'email' );
-
+		$body = $this->renderTemplate( 'index' );
 		$message = !empty( $email['template'] )
 			? $this->renderTemplate( $email['template'], $email['template-tags'] )
 			: $email['message'];
@@ -205,10 +204,10 @@ class Email
 	 */
 	protected function renderTemplate( $templatePath, array $args = [] )
 	{
-		$file = $this->template->get( sprintf( 'castor/%s', $templatePath ));
+		$file = $this->template->get( 'castor/email/'.$templatePath );
 
 		if( !file_exists( $file )) {
-			$file = sprintf( '%s/templates/%s.php', dirname( __DIR__ ), $templatePath );
+			$file = sprintf( '%s/templates/email/%s.php', dirname( dirname( __DIR__ )), $templatePath );
 		}
 		if( !file_exists( $file ))return;
 
@@ -227,7 +226,7 @@ class Email
 	protected function renderTemplateString( $template, array $args = [] )
 	{
 		foreach( $args as $key => $value ) {
-			$template = str_replace( sprintf( '{%s}', $key ), $value, $template );
+			$template = str_replace( '{'.$key.'}', $value, $template );
 		}
 		return trim( $template );
 	}
