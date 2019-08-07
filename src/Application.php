@@ -40,7 +40,7 @@ final class Application extends Container
 		// Filter hooks
 		add_filter( 'body_class',             [$controller, 'filterBodyClasses'] );
 		add_filter( 'template_include',       [$controller, 'filterTemplate'] );
-		add_filter( 'login_headertitle',      [$controller, 'filterLoginTitle'] );
+		add_filter( 'login_headertext',       [$controller, 'filterLoginTitle'] );
 		add_filter( 'login_headerurl',        [$controller, 'filterLoginUrl'] );
 
 		foreach( $this->getTemplateTypes() as $type ) {

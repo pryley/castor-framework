@@ -55,7 +55,7 @@ class Controller
 
 	/**
 	 * @return string
-	 * @filter login_headertitle
+	 * @filter login_headertext
 	 */
 	public function filterLoginTitle()
 	{
