@@ -17,75 +17,75 @@ use BadMethodCallException;
  */
 class Media
 {
-	protected $gallery;
-	protected $image;
-	protected $video;
+    protected $gallery;
+    protected $image;
+    protected $video;
 
-	public function __construct( Gallery $gallery, Image $image, Video $video )
-	{
-		$this->gallery = $gallery;
-		$this->image   = $image;
-		$this->video   = $video;
-	}
+    public function __construct(Gallery $gallery, Image $image, Video $video)
+    {
+        $this->gallery = $gallery;
+        $this->image = $image;
+        $this->video = $video;
+    }
 
-	/**
-	 * @param string $name
-	 * @return string|void
-	 * @throws BadMethodCallException
-	 */
-	public function __call( $name, array $args )
-	{
-		$mediaType = $this->validateMethod( $name );
-		$args = $this->validateArgs( $args, $mediaType );
+    /**
+     * @param string $name
+     * @return string|void
+     * @throws BadMethodCallException
+     */
+    public function __call($name, array $args)
+    {
+        $mediaType = $this->validateMethod($name);
+        $args = $this->validateArgs($args, $mediaType);
 
-		if( str_replace( $mediaType, '', strtolower( $name ))) {
-			return $this->$mediaType->get( $args[0] )->$mediaType;
-		}
-		return !empty( $args[1] )
-			? $this->$mediaType->get( $args[0] )->render( $args[1] )
-			: $this->$mediaType->get( $args[0] )->render();
-	}
+        if (str_replace($mediaType, '', strtolower($name))) {
+            return $this->$mediaType->get($args[0])->$mediaType;
+        }
+        return !empty($args[1])
+            ? $this->$mediaType->get($args[0])->render($args[1])
+            : $this->$mediaType->get($args[0])->render();
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $args
-	 * @return mixed
-	 * @throws BadMethodCallException
-	 */
-	public function get( $name, $args = [] )
-	{
-		$mediaType = $this->validateMethod( $name );
-		return $this->$mediaType->get( $args )->$mediaType;
-	}
+    /**
+     * @param string $name
+     * @param mixed $args
+     * @return mixed
+     * @throws BadMethodCallException
+     */
+    public function get($name, $args = [])
+    {
+        $mediaType = $this->validateMethod($name);
+        return $this->$mediaType->get($args)->$mediaType;
+    }
 
-	/**
-	 * @param string $name
-	 * @return array
-	 * @throws BadMethodCallException
-	 */
-	protected function validateArgs( array $args, $name )
-	{
-		if( !count( $args ) && $name == 'image' ) {
-			$args[] = get_post_thumbnail_id();
-		}
-		if( count( $args )) {
-			return $args;
-		}
-		throw new BadMethodCallException( sprintf( 'Missing arguments for: %s', $name ));
-	}
+    /**
+     * @param string $name
+     * @return array
+     * @throws BadMethodCallException
+     */
+    protected function validateArgs(array $args, $name)
+    {
+        if (!count($args) && 'image' == $name) {
+            $args[] = get_post_thumbnail_id();
+        }
+        if (count($args)) {
+            return $args;
+        }
+        throw new BadMethodCallException(sprintf('Missing arguments for: %s', $name));
+    }
 
-	/**
-	 * @param string $name
-	 * @return string|false
-	 * @throws BadMethodCallException
-	 */
-	protected function validateMethod( $name )
-	{
-		foreach( [$name, strtolower( substr( $name, 3 ))] as $method ) {
-			if( property_exists( $this, $method ) && is_object( $this->$method )) {
-				return $method;
-			}
-		}
-		throw new BadMethodCallException( sprintf( 'Not a valid method: %s', $name ));
-	}
+    /**
+     * @param string $name
+     * @return string|false
+     * @throws BadMethodCallException
+     */
+    protected function validateMethod($name)
+    {
+        foreach ([$name, strtolower(substr($name, 3))] as $method) {
+            if (property_exists($this, $method) && is_object($this->$method)) {
+                return $method;
+            }
+        }
+        throw new BadMethodCallException(sprintf('Not a valid method: %s', $name));
+    }
 }
