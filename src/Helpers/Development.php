@@ -20,9 +20,9 @@ class Development
         return ob_get_clean();
     }
 
-    public function className()
+    public function className($override = 'dev')
     {
-        return $this->isDev() ? 'dev' : '';
+        return $this->isDev() ? $override : '';
     }
 
     public function debug()
