@@ -116,14 +116,21 @@ class Theme
 
     /**
      * @param string|null $path
-     *
+     * @param string $class
      * @return string|null
      */
-    public function svg($path = null)
+    public function svg($path = null, $class = '')
     {
-        if (file_exists($this->imagePath($path))) {
-            return file_get_contents($this->imagePath($path));
+        if (!file_exists($this->imagePath($path))) {
+            return;
         }
+        $svg = file_get_contents($this->imagePath($path));
+        $pattern = '/(<svg.+)( class=[\'\"](|[^\'\"]+)[\'\"])(>.+)/i';
+        if (1 === preg_match($pattern, $svg, $matches)) {
+            $class .= ' '.$matches[3];
+            $svg = preg_filter($pattern, '$1$4', $svg);
+        }
+        return str_replace('<svg', '<svg class="'.trim($class).'"', $svg);
     }
 
     protected function get404Title()
