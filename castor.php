@@ -22,7 +22,11 @@ if (is_customize_preview() && filter_input(INPUT_GET, 'theme')) {
     );
 }
 
-require_once ABSPATH.'/'.WPINC.'/class-oembed.php';
+if (version_compare('5.3', $wp_version, '<')) {
+    require_once ABSPATH.'/'.WPINC.'/class-oembed.php';
+} else {
+    require_once ABSPATH.'/'.WPINC.'/class-wp-oembed.php';
+}
 
 if (!function_exists('castor_app')) {
     function castor_app()
