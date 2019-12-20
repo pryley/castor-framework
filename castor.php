@@ -22,7 +22,7 @@ if (is_customize_preview() && filter_input(INPUT_GET, 'theme')) {
     );
 }
 
-if (version_compare('5.3', $wp_version, '<')) {
+if (version_compare($wp_version, '5.3', '<')) {
     require_once ABSPATH.'/'.WPINC.'/class-oembed.php';
 } else {
     require_once ABSPATH.'/'.WPINC.'/class-wp-oembed.php';
