@@ -27,7 +27,7 @@ class PostMeta
         if (is_string($metaValue)) {
             $metaValue = trim($metaValue);
         }
-        return empty($metaValue)
+        return empty($metaValue) && !in_array($metaValue, [0,'0'])
             ? $args['fallback']
             : $metaValue;
     }
