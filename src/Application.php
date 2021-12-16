@@ -2,6 +2,8 @@
 
 namespace GeminiLabs\Castor;
 
+use GeminiLabs\Castor\Controller;
+
 final class Application extends Container
 {
     public $assets;
@@ -20,7 +22,7 @@ final class Application extends Container
 
     public function init()
     {
-        $controller = $this->make('Controller');
+        $controller = $this->make(Controller::class);
 
         // Action hooks
         add_action('after_setup_theme', [$controller, 'afterSetupTheme'], 20);
