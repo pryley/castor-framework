@@ -128,14 +128,14 @@ class Controller
             wp_enqueue_style('castor/admin.css',
                 Theme::assetUri(castor_app()->cssDir.'admin.css'),
                 apply_filters('castor/enqueue/admin/css/deps', []),
-                null
+                CASTOR_FRAMEWORK_VERSION
             );
         }
         if (file_exists(Theme::assetPath(castor_app()->jsDir.'admin.js'))) {
             wp_enqueue_script('castor/admin.js',
                 Theme::assetUri(castor_app()->jsDir.'admin.js'),
                 apply_filters('castor/enqueue/admin/js/deps', []),
-                null,
+                CASTOR_FRAMEWORK_VERSION,
                 true
             );
         }
@@ -150,12 +150,12 @@ class Controller
         wp_register_style('castor/main.css',
             Theme::assetUri(castor_app()->cssDir.'main.css'),
             apply_filters('castor/enqueue/css/deps', []),
-            null
+            CASTOR_FRAMEWORK_VERSION
         );
         wp_register_script('castor/main.js',
             Theme::assetUri(castor_app()->jsDir.'main.js'),
             apply_filters('castor/enqueue/js/deps', []),
-            null,
+            CASTOR_FRAMEWORK_VERSION,
             true
         );
         wp_localize_script('castor/main.js', apply_filters('castor/enqueue/js/localize/variable', 'globals'),
@@ -189,7 +189,7 @@ class Controller
      */
     public function registerCustomizerAssets()
     {
-        wp_enqueue_script('castor/customizer.js', Theme::assetUri(castor_app()->jsDir.'customizer.js'), ['customize-preview'], null, true);
+        wp_enqueue_script('castor/customizer.js', Theme::assetUri(castor_app()->jsDir.'customizer.js'), ['customize-preview'], CASTOR_FRAMEWORK_VERSION, true);
     }
 
     /**

@@ -22,6 +22,8 @@ if (is_customize_preview() && filter_input(INPUT_GET, 'theme')) {
     );
 }
 
+define('CASTOR_FRAMEWORK_VERSION', '1.4.3');
+
 if (version_compare($wp_version, '5.3', '<')) {
     require_once ABSPATH.'/'.WPINC.'/class-oembed.php';
 } else {
