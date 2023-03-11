@@ -3,7 +3,6 @@
 namespace GeminiLabs\Castor\Services;
 
 use GeminiLabs\Castor\Helpers\Template;
-use PHPMailer;
 
 class Email
 {
@@ -55,7 +54,7 @@ class Email
         $this->subject = $email['subject'];
         $this->to = $email['to'];
 
-        add_action('phpmailer_init', function (PHPMailer $phpmailer) {
+        add_action('phpmailer_init', function ($phpmailer) {
             if ('text/plain' === $phpmailer->ContentType || !empty($phpmailer->AltBody)) {
                 return;
             }

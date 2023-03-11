@@ -51,10 +51,7 @@ class Development
 
     public function printTemplatePaths()
     {
-        $templates = array_map(function ($key, $value) {
-            return sprintf('[%s] => %s', $key, $value);
-        }, array_keys($this->templatePaths), $this->templatePaths);
-        $this->printF(implode("\n", $templates));
+        $this->printF(implode("\n", $this->templatePaths()));
     }
 
     public function storeTemplatePath($template)
@@ -79,5 +76,10 @@ class Development
             }
             echo '</div>';
         }
+    }
+
+    public function templatePaths()
+    {
+        return $this->templatePaths;
     }
 }
