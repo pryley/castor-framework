@@ -9,7 +9,7 @@ Framework for [Dioscuri's](https://github.com/pryley/dioscuri) [Castor](https://
 
 Minimum theme requirements:
 
-* PHP 5.6
-* WordPress 4.7.0
+* PHP 7.4
+* WordPress 6.1
 
 View commit log for changes.
