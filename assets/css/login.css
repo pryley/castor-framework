@@ -1,0 +1,126 @@
+:root {
+    --background-color: #f1f1f1;
+    --error-color: #d51300;
+    --link-color: #0073aa;
+}
+
+#login h1 a {
+}
+
+#login h1 a[href*="/wordpress.org"],
+#login form p.forgetmenot,
+#login form label br,
+#login form label[for="authcode"],
+#login #backtoblog {
+    display: none;
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover,
+a:active,
+.login #nav a:hover {
+    color: color-mix(in srgb, var(--link-color), white 5%);
+}
+
+body.login:not(.interim-login) {
+    display: flex;
+    background-color-color: var(--background-color);
+}
+
+body.login.interim-login {
+    h1 a {
+        margin-top: 0;
+    }
+}
+
+#login {
+    width: 288px;
+    padding: 0;
+}
+
+#login form {
+    position: relative;
+    left: auto;
+    background-color: var(--background-color);
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 16px;;
+    overflow: inherit;
+
+    label[for="user_login"],
+    label[for="user_email"],
+    label[for="user_pass"] {
+        position: relative;
+        display: block;
+        height: 36px;
+        font-size: 0;
+        margin-bottom: 16px;
+        &:focus {
+            outline: none;
+        }
+        input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 24px;
+            background: #fff;
+            padding: 3px 4px;
+            margin: 0;
+            z-index: 1;
+        }
+        input:focus {
+            border-color: color-mix(in srgb, var(--link-color), white 5%);
+            box-shadow: 0 0 2px color-mix(in srgb, var(--link-color), white 95%);
+        }
+    }
+
+    input#authcode {
+        text-align: center;
+    }
+
+    p.forgetmenot {
+        margin-bottom: 16px;
+    }
+
+    input#submit,
+    #wp-submit {
+        float: none;
+        width: 100%;
+        height: 40px;
+        font-size: 1.154em;
+        text-shadow: none;
+        border: none;
+        background-color: var(--link-color);
+        transition: background-color 0.2s ease-in-out;
+        box-shadow: none;
+        outline: 0;
+        &:focus {
+            box-shadow: none;
+        }
+        &:hover {
+            background-color: color-mix(in srgb, var(--link-color), white 5%);
+        }
+    }
+}
+
+.login .message,
+.login #login_error {
+    margin-bottom: 16px
+}
+
+.login .message {
+    border-color: var(--link-color);
+}
+
+.login #login_error {
+    border-color: var(--error-color);
+}
+
+#login #nav {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
