@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\Castor;
 
-use RuntimeException;
-
 abstract class Facade
 {
     /**
@@ -27,6 +25,7 @@ abstract class Facade
      * @param array  $args
      *
      * @return mixed
+     *
      * @throws \RuntimeException
      */
     public static function __callStatic($method, $args)
@@ -34,7 +33,7 @@ abstract class Facade
         $instance = static::getFacadeRoot();
 
         if (!$instance) {
-            throw new RuntimeException('A facade root has not been set.');
+            throw new \RuntimeException('A facade root has not been set.');
         }
 
         return $instance->$method(...$args);
@@ -89,7 +88,7 @@ abstract class Facade
      */
     protected static function getFacadeAccessor()
     {
-        throw new RuntimeException('Facade does not implement getFacadeAccessor method.');
+        throw new \RuntimeException('Facade does not implement getFacadeAccessor method.');
     }
 
     /**

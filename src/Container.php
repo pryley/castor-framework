@@ -2,10 +2,7 @@
 
 namespace GeminiLabs\Castor;
 
-use Closure;
 use GeminiLabs\Castor\Exceptions\BindingResolutionException;
-use ReflectionClass;
-use ReflectionParameter;
 
 abstract class Container
 {
@@ -140,7 +137,8 @@ abstract class Container
 
     /**
      * @param \ReflectionParameter $parameter
-     * @return null|\ReflectionClass|\ReflectionNamedType|\ReflectionType
+     *
+     * @return \ReflectionClass|\ReflectionNamedType|\ReflectionType|null
      */
     protected function getClass($parameter)
     {
@@ -156,6 +154,7 @@ abstract class Container
      * @param string $concrete
      *
      * @return void
+     *
      * @throws BindingResolutionException
      */
     protected function notInstantiable($concrete)
@@ -171,21 +170,22 @@ abstract class Container
      * @param mixed $concrete
      *
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function resolve($concrete)
     {
-        if ($concrete instanceof Closure) {
+        if ($concrete instanceof \Closure) {
             return $concrete($this);
         }
 
-        $reflector = new ReflectionClass($concrete);
+        $reflector = new \ReflectionClass($concrete);
 
         if (!$reflector->isInstantiable()) {
             return $this->notInstantiable($concrete);
         }
 
-        if (is_null(($constructor = $reflector->getConstructor()))) {
+        if (is_null($constructor = $reflector->getConstructor())) {
             return new $concrete();
         }
 
@@ -198,9 +198,10 @@ abstract class Container
      * Resolve a class based dependency from the container.
      *
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
-    protected function resolveClass(ReflectionParameter $parameter)
+    protected function resolveClass(\ReflectionParameter $parameter)
     {
         try {
             return $this->make($this->getClass($parameter)->getName());

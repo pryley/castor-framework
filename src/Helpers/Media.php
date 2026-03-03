@@ -5,7 +5,6 @@ namespace GeminiLabs\Castor\Helpers;
 use GeminiLabs\Castor\Gallery;
 use GeminiLabs\Castor\Image;
 use GeminiLabs\Castor\Video;
-use BadMethodCallException;
 
 /**
  * @method string      gallery( array $args )
@@ -30,8 +29,10 @@ class Media
 
     /**
      * @param string $name
+     *
      * @return string|void
-     * @throws BadMethodCallException
+     *
+     * @throws \BadMethodCallException
      */
     public function __call($name, array $args)
     {
@@ -48,9 +49,11 @@ class Media
 
     /**
      * @param string $name
-     * @param mixed $args
+     * @param mixed  $args
+     *
      * @return mixed
-     * @throws BadMethodCallException
+     *
+     * @throws \BadMethodCallException
      */
     public function get($name, $args = [])
     {
@@ -60,8 +63,10 @@ class Media
 
     /**
      * @param string $name
+     *
      * @return array
-     * @throws BadMethodCallException
+     *
+     * @throws \BadMethodCallException
      */
     protected function validateArgs(array $args, $name)
     {
@@ -71,13 +76,15 @@ class Media
         if (count($args)) {
             return $args;
         }
-        throw new BadMethodCallException(sprintf('Missing arguments for: %s', $name));
+        throw new \BadMethodCallException(sprintf('Missing arguments for: %s', $name));
     }
 
     /**
      * @param string $name
+     *
      * @return string|false
-     * @throws BadMethodCallException
+     *
+     * @throws \BadMethodCallException
      */
     protected function validateMethod($name)
     {
@@ -86,6 +93,6 @@ class Media
                 return $method;
             }
         }
-        throw new BadMethodCallException(sprintf('Not a valid method: %s', $name));
+        throw new \BadMethodCallException(sprintf('Not a valid method: %s', $name));
     }
 }

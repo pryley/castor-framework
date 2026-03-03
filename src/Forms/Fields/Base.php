@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\Castor\Forms\Fields;
 
-use Exception;
 use GeminiLabs\Castor\Services\Normalizer;
 
 abstract class Base
@@ -47,7 +46,8 @@ abstract class Base
      * @param string $property
      *
      * @return mixed
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     public function __get($property)
     {
@@ -59,7 +59,7 @@ abstract class Base
             case 'outside':
                 return $this->$property;
         }
-        throw new Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
+        throw new \Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
     }
 
     /**

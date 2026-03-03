@@ -3,18 +3,17 @@
 namespace GeminiLabs\Castor\Helpers;
 
 use GeminiLabs\Castor\Facades\Development as DevelopmentFacade;
-use ReflectionClass;
 
 class Log
 {
-    const EMERGENCY = 'emergency';
-    const ALERT = 'alert';
-    const CRITICAL = 'critical';
-    const ERROR = 'error';
-    const WARNING = 'warning';
-    const NOTICE = 'notice';
-    const INFO = 'info';
-    const DEBUG = 'debug';
+    public const EMERGENCY = 'emergency';
+    public const ALERT = 'alert';
+    public const CRITICAL = 'critical';
+    public const ERROR = 'error';
+    public const WARNING = 'warning';
+    public const NOTICE = 'notice';
+    public const INFO = 'info';
+    public const DEBUG = 'debug';
 
     protected $file;
     protected $log;
@@ -38,7 +37,7 @@ class Log
      * trigger the SMS alerts and wake you up.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function alert($message, array $context = [])
@@ -60,7 +59,7 @@ class Log
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function critical($message, array $context = [])
@@ -72,7 +71,7 @@ class Log
      * Detailed debug information.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function debug($message, array $context = [])
@@ -84,7 +83,7 @@ class Log
      * System is unusable.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function emergency($message, array $context = [])
@@ -97,7 +96,7 @@ class Log
      * be logged and monitored.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function error($message, array $context = [])
@@ -110,7 +109,7 @@ class Log
      * Example: User logs in, SQL logs.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function info($message, array $context = [])
@@ -122,7 +121,7 @@ class Log
      * Normal but significant events.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function notice($message, array $context = [])
@@ -136,7 +135,7 @@ class Log
      * that are not necessarily wrong.
      *
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     public function warning($message, array $context = [])
@@ -146,7 +145,7 @@ class Log
 
     /**
      * @param string $message
-     * @param array $context
+     *
      * @return array|string
      */
     protected function interpolate($message, array $context = [])
@@ -169,14 +168,14 @@ class Log
     }
 
     /**
-     * @param mixed $level
+     * @param mixed  $level
      * @param string $message
-     * @param array $context
+     *
      * @return void
      */
     protected function log($level, $message, array $context = [])
     {
-        if (!in_array($level, (new ReflectionClass(__NAMESPACE__.'\Log'))->getConstants(), true)
+        if (!in_array($level, (new \ReflectionClass(__NAMESPACE__.'\Log'))->getConstants(), true)
             || !DevelopmentFacade::isDev()
         ) {
             return;

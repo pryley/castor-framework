@@ -5,8 +5,6 @@ namespace GeminiLabs\Castor;
 use GeminiLabs\Castor\Helpers\PostMeta;
 use GeminiLabs\Castor\Helpers\Theme;
 use GeminiLabs\Castor\Helpers\Utility;
-use WP_Post;
-use WP_Query;
 
 class Gallery
 {
@@ -33,7 +31,7 @@ class Gallery
     {
         $this->normalizeArgs($args);
 
-        $this->gallery = new WP_Query([
+        $this->gallery = new \WP_Query([
             'orderby' => 'post__in',
             'paged' => $this->getPaged(),
             'post__in' => $this->args['media'],
@@ -65,7 +63,7 @@ class Gallery
     /**
      * @return string|null
      */
-    public function renderImage(WP_Post $attachment)
+    public function renderImage(\WP_Post $attachment)
     {
         $image = $this->image->get($attachment->ID)->image;
 
@@ -187,7 +185,7 @@ class Gallery
      */
     protected function getPaged()
     {
-        return intval(get_query_var((is_front_page() ? 'page' : 'paged'))) ?: 1;
+        return intval(get_query_var(is_front_page() ? 'page' : 'paged')) ?: 1;
     }
 
     /**
@@ -267,6 +265,7 @@ class Gallery
 
     /**
      * @param object $image
+     *
      * @return string|null
      */
     protected function renderImageCaption($image)
@@ -282,6 +281,7 @@ class Gallery
 
     /**
      * @param object $image
+     *
      * @return string|null
      */
     protected function renderImageTag($image)

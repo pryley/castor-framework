@@ -2,9 +2,6 @@
 
 namespace GeminiLabs\Castor\Forms;
 
-use Exception;
-use ReflectionException;
-
 class Field
 {
     /**
@@ -27,7 +24,8 @@ class Field
      * @param string $property
      *
      * @return mixed
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     public function __get($property)
     {
@@ -36,7 +34,7 @@ class Field
             case 'dependencies':
                 return $this->$property;
         }
-        throw new Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
+        throw new \Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
     }
 
     /**
@@ -53,7 +51,7 @@ class Field
         $className = sprintf('GeminiLabs\Castor\Forms\Fields\%s', ucfirst($args['type']));
 
         if (!class_exists($className)) {
-            throw new ReflectionException("Class does not exist: {$className}");
+            throw new \ReflectionException("Class does not exist: {$className}");
         }
 
         return new $className($args);

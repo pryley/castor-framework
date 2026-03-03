@@ -2,8 +2,6 @@
 
 namespace GeminiLabs\Castor;
 
-use GeminiLabs\Castor\Controller;
-
 final class Application extends Container
 {
     public $assets;

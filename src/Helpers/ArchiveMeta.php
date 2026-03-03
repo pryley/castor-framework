@@ -23,8 +23,9 @@ class ArchiveMeta extends SiteMeta
 
     /**
      * @param string|null $key
-     * @param mixed $fallback
-     * @param string $group
+     * @param mixed       $fallback
+     * @param string      $group
+     *
      * @return mixed
      */
     public function get($key = '', $fallback = null, $group = '')

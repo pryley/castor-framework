@@ -2,9 +2,6 @@
 
 namespace GeminiLabs\Castor\Services;
 
-use BadMethodCallException;
-use InvalidArgumentException;
-
 class Validator
 {
     /**
@@ -124,7 +121,8 @@ class Validator
     /**
      * Get the data type of the given attribute.
      *
-     * @param  string  $attribute
+     * @param string $attribute
+     *
      * @return string
      */
     protected function getAttributeType($attribute)
@@ -348,12 +346,13 @@ class Validator
      * @param string $rule
      *
      * @return void
-     * @throws InvalidArgumentException
+     *
+     * @throws \InvalidArgumentException
      */
     protected function requireParameterCount($count, array $parameters, $rule)
     {
         if (count($parameters) < $count) {
-            throw new InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
+            throw new \InvalidArgumentException("Validation rule $rule requires at least $count parameters.");
         }
     }
 
@@ -416,7 +415,7 @@ class Validator
      */
     protected function translator($key, $rule, $attribute, array $parameters)
     {
-        $strings = []; //glsr_resolve( 'Strings' )->validation();
+        $strings = []; // glsr_resolve( 'Strings' )->validation();
 
         $message = isset($strings[$key])
             ? $strings[$key]
@@ -443,7 +442,7 @@ class Validator
      *
      * This validation rule implies the attribute is "required".
      *
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return bool
      */
@@ -461,7 +460,8 @@ class Validator
      * @param string $attribute
      *
      * @return void
-     * @throws BadMethodCallException
+     *
+     * @throws \BadMethodCallException
      */
     protected function validateAttribute($rule, $attribute)
     {
@@ -474,7 +474,7 @@ class Validator
         $method = "validate{$rule}";
 
         if (!method_exists($this, $method)) {
-            throw new BadMethodCallException("Method [$method] does not exist.");
+            throw new \BadMethodCallException("Method [$method] does not exist.");
         }
 
         if (!$this->$method($this->getValue($attribute), $attribute, $parameters)) {

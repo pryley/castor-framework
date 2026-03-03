@@ -116,7 +116,8 @@ class Theme
 
     /**
      * @param string|null $path
-     * @param string $class
+     * @param string      $class
+     *
      * @return string|null
      */
     public function svg($path = null, $class = '')

@@ -12,6 +12,7 @@ class PostMeta
 {
     /**
      * @param string $metaKey
+     *
      * @return mixed
      */
     public function get($metaKey, array $args = [])
@@ -27,7 +28,7 @@ class PostMeta
         if (is_string($metaValue)) {
             $metaValue = trim($metaValue);
         }
-        return empty($metaValue) && !in_array($metaValue, [0,'0'])
+        return empty($metaValue) && !in_array($metaValue, [0, '0'])
             ? $args['fallback']
             : $metaValue;
     }
@@ -35,6 +36,7 @@ class PostMeta
     /**
      * @param string $metaKey
      * @param string $prefix
+     *
      * @return string
      */
     protected function buildMetaKey($metaKey, $prefix)

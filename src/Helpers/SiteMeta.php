@@ -22,6 +22,7 @@ class SiteMeta
 
     /**
      * @param string $group
+     *
      * @return object|array|null
      */
     public function __call($group, $args)
@@ -36,6 +37,7 @@ class SiteMeta
 
     /**
      * @param string $group
+     *
      * @return object|array|null
      */
     public function __get($group)
@@ -55,9 +57,10 @@ class SiteMeta
     }
 
     /**
-     * @param string $group
+     * @param string      $group
      * @param string|null $key
-     * @param mixed $fallback
+     * @param mixed       $fallback
+     *
      * @return mixed
      */
     public function get($group = '', $key = '', $fallback = null)
@@ -87,7 +90,8 @@ class SiteMeta
 
     /**
      * @param string $key
-     * @param mixed $fallback
+     * @param mixed  $fallback
+     *
      * @return mixed
      */
     protected function getValue(array $group, $key = '', $fallback = null)

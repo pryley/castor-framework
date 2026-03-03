@@ -47,7 +47,7 @@ class Template
      */
     public function load($slug, $name = '')
     {
-        if (!empty(($template = $this->get($slug, $name)))) {
+        if (!empty($template = $this->get($slug, $name))) {
             DevelopmentFacade::storeTemplatePath($template);
             load_template($template, false);
         }

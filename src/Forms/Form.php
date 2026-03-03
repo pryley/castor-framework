@@ -2,7 +2,6 @@
 
 namespace GeminiLabs\Castor\Forms;
 
-use Exception;
 use GeminiLabs\Castor\Services\Normalizer;
 
 class Form
@@ -45,7 +44,8 @@ class Form
      * @param string $property
      *
      * @return mixed
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     public function __get($property)
     {
@@ -55,7 +55,7 @@ class Form
             case 'fields':
                 return $this->$property;
         }
-        throw new Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
+        throw new \Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
     }
 
     /**
@@ -63,7 +63,8 @@ class Form
      * @param string $value
      *
      * @return void
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     public function __set($property, $value)
     {
@@ -74,7 +75,7 @@ class Form
                 $this->$property = $value;
                 break;
             default:
-                throw new Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
+                throw new \Exception(sprintf('Invalid %s property: %s', __CLASS__, $property));
         }
     }
 

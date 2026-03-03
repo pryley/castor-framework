@@ -3,7 +3,6 @@
 namespace GeminiLabs\Castor;
 
 use GeminiLabs\Castor\Helpers\Utility;
-use DomDocument;
 
 class Oembed
 {
@@ -48,7 +47,7 @@ class Oembed
 
     protected function domLoad($html)
     {
-        $dom = new DomDocument();
+        $dom = new \DomDocument();
         $dom->loadHTML($html);
         return $dom;
     }

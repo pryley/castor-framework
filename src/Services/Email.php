@@ -254,6 +254,7 @@ class Email
      * - replace certain table elements with a space
      * - add a placeholder for plain-text bullets to list elements
      * - strip all remaining HTML tags.
+     *
      * @return string
      */
     protected function stripHtmlTags($string)

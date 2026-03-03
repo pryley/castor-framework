@@ -4,27 +4,27 @@ namespace GeminiLabs\Castor\Services;
 
 class Normalizer
 {
-    const BOOLEAN_ATTRIBUTES = [
+    public const BOOLEAN_ATTRIBUTES = [
         'autofocus', 'capture', 'checked', 'disabled', 'draggable', 'formnovalidate', 'hidden',
         'multiple', 'novalidate', 'readonly', 'required', 'selected', 'spellcheck',
         'webkitdirectory',
     ];
 
-    const FORM_ATTRIBUTES = [
+    public const FORM_ATTRIBUTES = [
         'accept', 'accept-charset', 'action', 'autocapitalize', 'autocomplete', 'enctype',
         'method', 'name', 'novalidate', 'target',
     ];
 
-    const GLOBAL_ATTRIBUTES = [
+    public const GLOBAL_ATTRIBUTES = [
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'draggable', 'dropzone',
         'hidden', 'id', 'lang', 'spellcheck', 'style', 'tabindex', 'title',
     ];
 
-    const GLOBAL_WILDCARD_ATTRIBUTES = [
+    public const GLOBAL_WILDCARD_ATTRIBUTES = [
         'aria-', 'data-', 'item', 'on',
     ];
 
-    const INPUT_ATTRIBUTES = [
+    public const INPUT_ATTRIBUTES = [
         'accept', 'autocapitalize', 'autocomplete', 'autocorrect', 'autofocus', 'capture',
         'checked', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod',
         'formnovalidate', 'formtarget', 'height', 'incremental', 'inputmode', 'list', 'max',
@@ -33,17 +33,17 @@ class Normalizer
         'step', 'type', 'value', 'webkitdirectory', 'width', 'x-moz-errormessage',
     ];
 
-    const INPUT_TYPES = [
+    public const INPUT_TYPES = [
         'button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file',
         'hidden', 'image', 'max', 'min', 'month', 'number', 'password', 'radio', 'range',
         'reset', 'search', 'step', 'submit', 'tel', 'text', 'time', 'url', 'value', 'week',
     ];
 
-    const SELECT_ATTRIBUTES = [
+    public const SELECT_ATTRIBUTES = [
         'autofocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size',
     ];
 
-    const TEXTAREA_ATTRIBUTES = [
+    public const TEXTAREA_ATTRIBUTES = [
         'autocapitalize', 'autocomplete', 'autofocus', 'cols', 'disabled', 'form', 'maxlength',
         'minlength', 'name', 'placeholder', 'readonly', 'required', 'rows',
         'selectionDirection', 'selectionEnd', 'selectionStart', 'wrap',

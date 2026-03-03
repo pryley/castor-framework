@@ -1,6 +1,6 @@
 <?php
 
-defined('WPINC') || die;
+defined('WPINC') || exit;
 
 global $wp_version;
 
@@ -23,7 +23,7 @@ if (is_customize_preview() && filter_input(INPUT_GET, 'theme')) {
 }
 
 if (!defined('CASTOR_FRAMEWORK_VERSION')) {
-    define('CASTOR_FRAMEWORK_VERSION', '1.5.0');
+    define('CASTOR_FRAMEWORK_VERSION', '1.6.0');
 }
 if (!defined('CASTOR_ASSET_VERSION')) {
     define('CASTOR_ASSET_VERSION', CASTOR_FRAMEWORK_VERSION);
@@ -34,8 +34,8 @@ require_once ABSPATH.'/'.WPINC.'/class-wp-oembed.php';
 if (!function_exists('castor_app')) {
     function castor_app()
     {
-        return \GeminiLabs\Castor\Application::getInstance();
+        return GeminiLabs\Castor\Application::getInstance();
     }
 }
 
-\GeminiLabs\Castor\Application::getInstance()->init();
+GeminiLabs\Castor\Application::getInstance()->init();

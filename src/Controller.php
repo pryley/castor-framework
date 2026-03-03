@@ -6,12 +6,12 @@ use GeminiLabs\Castor\Facades\Development;
 use GeminiLabs\Castor\Facades\Template;
 use GeminiLabs\Castor\Facades\Theme;
 use GeminiLabs\Castor\Facades\Utility;
-use WP_Customize_Manager;
 
 class Controller
 {
     /**
      * @return void
+     *
      * @action after_setup_theme
      */
     public function afterSetupTheme()
@@ -43,6 +43,7 @@ class Controller
 
     /**
      * @return array
+     *
      * @filter body_class
      */
     public function filterBodyClasses(array $classes)
@@ -55,6 +56,7 @@ class Controller
 
     /**
      * @return string
+     *
      * @filter login_headertext
      */
     public function filterLoginTitle()
@@ -64,6 +66,7 @@ class Controller
 
     /**
      * @return string
+     *
      * @filter login_headerurl
      */
     public function filterLoginUrl()
@@ -73,6 +76,7 @@ class Controller
 
     /**
      * @return string
+     *
      * @filter template_include
      */
     public function filterTemplate($template)
@@ -86,6 +90,7 @@ class Controller
 
     /**
      * @return array
+     *
      * @filter {$type}_template_hierarchy
      */
     public function filterTemplateHierarchy(array $templates)
@@ -97,6 +102,7 @@ class Controller
 
     /**
      * @return void
+     *
      * @action admin_head
      * @action login_head
      */
@@ -109,6 +115,7 @@ class Controller
 
     /**
      * @return void
+     *
      * @action login_head
      */
     public function login()
@@ -120,6 +127,7 @@ class Controller
 
     /**
      * @return void
+     *
      * @action admin_enqueue_scripts
      */
     public function registerAdminAssets()
@@ -143,6 +151,7 @@ class Controller
 
     /**
      * @return void
+     *
      * @action wp_enqueue_scripts
      */
     public function registerAssets()
@@ -170,9 +179,10 @@ class Controller
 
     /**
      * @return void
+     *
      * @action customize_register
      */
-    public function registerCustomizer(WP_Customize_Manager $manager)
+    public function registerCustomizer(\WP_Customize_Manager $manager)
     {
         $manager->get_setting('blogname')->transport = 'postMessage';
         $manager->selective_refresh->add_partial('blogname', [
@@ -185,11 +195,12 @@ class Controller
 
     /**
      * @return void
+     *
      * @action customize_preview_init
      */
     public function registerCustomizerAssets()
     {
-        wp_enqueue_script('castor/customizer.js', 
+        wp_enqueue_script('castor/customizer.js',
             Theme::assetUri(castor_app()->jsDir.'customizer.js'),
             ['customize-preview'],
             CASTOR_ASSET_VERSION,
@@ -199,6 +210,7 @@ class Controller
 
     /**
      * @return void
+     *
      * @action widgets_init
      */
     public function registerSidebars()
